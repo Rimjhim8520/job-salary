@@ -1,4 +1,4 @@
-'''# =========================
+# =========================
 # IMPORT LIBRARIES
 # =========================
 import streamlit as st
@@ -105,11 +105,11 @@ input_df[num_cols] = scaler.transform(input_df[num_cols])
 if st.button("Predict Salary"):
     prediction = model.predict(input_df)
     st.success(f"💰 Predicted Salary: {int(prediction[0])}")
-    st.balloons()'''
+    st.balloons()
 
 
 
-# =========================
+'''# =========================
 # IMPORT LIBRARIES
 # =========================
 import streamlit as st
@@ -274,3 +274,4 @@ else:
         prediction = model.predict(input_df)
         st.success(f"💰 Predicted Salary: ₹ {int(prediction[0])}")
         st.balloons()
+'''
