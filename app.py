@@ -284,11 +284,11 @@ def login():
 # =========================
 # SIGNUP FUNCTION
 # =========================
-'''def signup():'''
+def signup():
 
-   ''' st.subheader("📝 Sign Up")'''
+   st.subheader("📝 Sign Up")
 
-    '''new_user = st.text_input("Create Username")
+    new_user = st.text_input("Create Username")
     new_pass = st.text_input("Create Password", type="password")
     confirm_pass = st.text_input("Confirm Password", type="password")
 
@@ -306,10 +306,10 @@ def login():
         else:
             st.session_state.users[new_user] = new_pass
             st.success("Account Created Successfully ✅")
-            st.info("Go to Login Page")'''
+            st.info("Go to Login Page")
 
 
-def signup():
+'''def signup():
 
     st.markdown(
         """
@@ -362,7 +362,7 @@ def signup():
         else:
             st.session_state.users[new_user] = new_pass
             st.success("Account Created Successfully ✅")
-            st.info("Go to Login Page")
+            st.info("Go to Login Page")'''
 
 
 
