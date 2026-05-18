@@ -284,7 +284,7 @@ def login():
 # =========================
 # SIGNUP FUNCTION
 # =========================
-def signup():
+'''def signup():
 
     st.subheader("📝 Sign Up")
 
@@ -306,7 +306,65 @@ def signup():
         else:
             st.session_state.users[new_user] = new_pass
             st.success("Account Created Successfully ✅")
+            st.info("Go to Login Page")'''
+
+
+def signup():
+
+    st.markdown(
+        """
+        <style>
+        .light-text {
+            color: #d3d3d3;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .stTextInput label {
+            color: #dcdcdc !important;
+            font-weight: 500;
+        }
+
+        .stButton button {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            height: 45px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .stButton button:hover {
+            background-color: #45a049;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("<h2 class='light-text'>📝 Sign Up</h2>", unsafe_allow_html=True)
+
+    new_user = st.text_input("Create Username")
+    new_pass = st.text_input("Create Password", type="password")
+    confirm_pass = st.text_input("Confirm Password", type="password")
+
+    if st.button("Create Account"):
+
+        if new_user in st.session_state.users:
+            st.warning("Username already exists")
+
+        elif new_pass != confirm_pass:
+            st.warning("Passwords do not match")
+
+        elif new_user == "" or new_pass == "":
+            st.warning("Fields cannot be empty")
+
+        else:
+            st.session_state.users[new_user] = new_pass
+            st.success("Account Created Successfully ✅")
             st.info("Go to Login Page")
+
+
 
 # =========================
 # AUTH PAGE
