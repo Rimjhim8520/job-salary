@@ -140,9 +140,10 @@ st.markdown("""
     color: white;
 }
 
-/* All Text */
-html, body, [class*="css"] {
-    color: white !important;
+/* Text Visibility */
+p, li, label, div {
+    color: #f1f5f9 !important;
+    font-size: 16px;
 }
 
 /* Title */
