@@ -284,11 +284,11 @@ def login():
 # =========================
 # SIGNUP FUNCTION
 # =========================
-'''def signup():
+'''def signup():'''
 
    ''' st.subheader("📝 Sign Up")'''
 
-    new_user = st.text_input("Create Username")
+    '''new_user = st.text_input("Create Username")
     new_pass = st.text_input("Create Password", type="password")
     confirm_pass = st.text_input("Confirm Password", type="password")
 
