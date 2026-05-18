@@ -141,7 +141,7 @@ st.markdown("""
 }
 
 /* Text Visibility */
-p, li, div {
+p, li, label {
     color: #f1f5f9 !important;
     font-size: 16px;
 }
