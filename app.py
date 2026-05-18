@@ -141,7 +141,7 @@ st.markdown("""
 }
 /* Main Text */
 html, body, [class*="css"] {
-    color: teal;
+    color: white;
 }
 
 /* Title */
