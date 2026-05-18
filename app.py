@@ -286,7 +286,7 @@ def login():
 # =========================
 '''def signup():
 
-    st.subheader("📝 Sign Up")
+   ''' st.subheader("📝 Sign Up")'''
 
     new_user = st.text_input("Create Username")
     new_pass = st.text_input("Create Password", type="password")
