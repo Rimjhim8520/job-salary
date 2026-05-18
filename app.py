@@ -139,9 +139,10 @@ st.markdown("""
     background: linear-gradient(to right, #141e30, #243b55);
     color: white;
 }
-/* Main Text */
+
+/* All Text */
 html, body, [class*="css"] {
-    color: white;
+    color: white !important;
 }
 
 /* Title */
