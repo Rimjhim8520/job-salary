@@ -119,6 +119,7 @@ if st.button("Predict Salary"):
 import streamlit as st
 import pickle
 import pandas as pd
+import pywhatkit as kit
 
 # =========================
 # PAGE CONFIG
@@ -605,6 +606,60 @@ else:
                 file_name="salary_receipt.csv",
                 mime="text/csv"
             )
+     # =========================
+    # WHATSAPP SECTION
+    # =========================
+    st.markdown("---")
+
+    st.subheader("📲 Send Result to WhatsApp")
+
+    phone_number = st.text_input(
+        "Enter WhatsApp Number with Country Code",
+        placeholder="+919876543210"
+    )
+
+    if st.button("Send to WhatsApp"):
+
+        if phone_number == "":
+
+            st.warning("Please Enter WhatsApp Number")
+
+        else:
+
+            message = f'''
+💼 Salary Prediction Result
+
+👤 User: {st.session_state.username}
+
+📌 Experience: {exp} Years
+🛠 Skills: {skills}
+📜 Certifications: {cert}
+
+💼 Job Role: {job}
+🎓 Education: {edu}
+📍 Location: {loc}
+🏭 Industry: {ind}
+
+💰 Predicted Salary: ₹ {predicted_salary:,}
+🚀 Thank You for using Salary Prediction App
+          '''
+          try:
+
+                # SEND WHATSAPP MESSAGE
+                kit.sendwhatmsg_instantly(
+                    phone_number,
+                    message,
+                    wait_time=15,
+                    tab_close=True
+                )
+
+                st.success(
+                    "✅ WhatsApp Message Sent Successfully"
+                )
+
+            except Exception as e:
+
+                st.error(f"Error: {e}")
 
     # =========================
     # DASHBOARD PAGE
