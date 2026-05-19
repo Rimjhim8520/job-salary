@@ -642,8 +642,8 @@ else:
 
 💰 Predicted Salary: ₹ {predicted_salary:,}
 🚀 Thank You for using Salary Prediction App
-          '''
-          try:
+'''
+        try:
 
                 # SEND WHATSAPP MESSAGE
                 kit.sendwhatmsg_instantly(
