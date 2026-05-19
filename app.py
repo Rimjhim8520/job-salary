@@ -606,7 +606,7 @@ else:
                 file_name="salary_receipt.csv",
                 mime="text/csv"
             )
-     # =========================
+  '''   # =========================
     # WHATSAPP SECTION
     # =========================
     st.markdown("---")
@@ -659,7 +659,7 @@ else:
 
         except Exception as e:
 
-                st.error(f"Error: {e}")
+                st.error(f"Error: {e}")'''
 
     # =========================
     # DASHBOARD PAGE
