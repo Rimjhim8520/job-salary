@@ -119,7 +119,7 @@ if st.button("Predict Salary"):
 import streamlit as st
 import pickle
 import pandas as pd
-import pywhatkit as kit
+from twilio.rest import Client
 
 # =========================
 # PAGE CONFIG
