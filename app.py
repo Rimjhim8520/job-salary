@@ -581,7 +581,7 @@ else:
 
                 "Value": [
                     st.session_state.username,
-                    f"exp",
+                    exp,
                     skills,
                     cert,
                     job,
