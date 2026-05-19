@@ -606,7 +606,7 @@ else:
                 file_name="salary_receipt.csv",
                 mime="text/csv"
             )
-        else page == "💰 Salary Prediction":
+        else page == "💰 Pridict Salary":
 
           st.title("💰 Salary Prediction")
 
