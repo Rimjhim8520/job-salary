@@ -608,16 +608,6 @@ else:
             )
                  # prediction inputs...
 
-       if st.button("Predict Salary"):
-
-        prediction = model.predict(input_df)
-
-        predicted_salary = int(prediction[0])
-
-        st.success(
-            f"💰 Predicted Salary: ₹ {predicted_salary:,}"
-        )
-
     # =========================
     # WHATSAPP SECTION
     # =========================
