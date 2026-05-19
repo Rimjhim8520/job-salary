@@ -606,15 +606,7 @@ else:
                 file_name="salary_receipt.csv",
                 mime="text/csv"
             )
-        else page == "💰 Pridict Salary":
-
-          st.title("💰 Salary Prediction")
-
-          exp = st.number_input("Experience", 0, 30)
-          skills = st.number_input("Skills", 0, 50)
-          cert = st.number_input("Certifications", 0, 20)
-
-           # prediction inputs...
+                 # prediction inputs...
 
        if st.button("Predict Salary"):
 
