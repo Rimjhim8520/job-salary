@@ -657,7 +657,7 @@ else:
                     "✅ WhatsApp Message Sent Successfully"
                 )
 
-            except Exception as e:
+        except Exception as e:
 
                 st.error(f"Error: {e}")
 
