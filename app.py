@@ -606,7 +606,27 @@ else:
                 file_name="salary_receipt.csv",
                 mime="text/csv"
             )
-  '''   # =========================
+        else page == "💰 Salary Prediction":
+
+          st.title("💰 Salary Prediction")
+
+          exp = st.number_input("Experience", 0, 30)
+          skills = st.number_input("Skills", 0, 50)
+          cert = st.number_input("Certifications", 0, 20)
+
+           # prediction inputs...
+
+       if st.button("Predict Salary"):
+
+        prediction = model.predict(input_df)
+
+        predicted_salary = int(prediction[0])
+
+        st.success(
+            f"💰 Predicted Salary: ₹ {predicted_salary:,}"
+        )
+
+    # =========================
     # WHATSAPP SECTION
     # =========================
     st.markdown("---")
@@ -659,7 +679,7 @@ else:
 
         except Exception as e:
 
-                st.error(f"Error: {e}")'''
+                st.error(f"Error: {e}")
 
     # =========================
     # DASHBOARD PAGE
