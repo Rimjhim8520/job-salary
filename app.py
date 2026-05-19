@@ -706,6 +706,7 @@ else:
         st.title("📈 Salary Insights")
 
         st.write("""
+        
         ### Key Insights
 
         ✔ Higher experience increases salary.
