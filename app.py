@@ -581,7 +581,7 @@ else:
 
                 "Value": [
                     st.session_state.username,
-                    f"{exp} Years",
+                    f"exp",
                     skills,
                     cert,
                     job,
@@ -631,7 +631,7 @@ else:
 
 👤 User: {st.session_state.username}
 
-📌 Experience: {exp} Years
+📌 Experience: {exp} 
 🛠 Skills: {skills}
 📜 Certifications: {cert}
 
