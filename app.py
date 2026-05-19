@@ -119,6 +119,7 @@ if st.button("Predict Salary"):
 import streamlit as st
 import pickle
 import pandas as pd
+import os
 
 # =========================
 # PAGE CONFIG
@@ -251,13 +252,38 @@ table {
 # =========================
 # SIMPLE USER DATABASE
 # =========================
-if "users" not in st.session_state:
+'''if "users" not in st.session_state:
     st.session_state.users = {
         "admin": "1234",
         "aparna": "aparna123",
         "guest": "guest123"
     }
 
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if "username" not in st.session_state:
+    st.session_state.username = ""
+    '''
+
+
+USER_FILE = "users.pkl"
+
+if os.path.exists(USER_FILE):
+    with open(USER_FILE, "rb") as f:
+        users = pickle.load(f)
+else:
+    users = {
+        "admin": "1234",
+        "aparna": "aparna123",
+        "guest": "guest123"
+    }
+
+# STORE IN SESSION
+if "users" not in st.session_state:
+    st.session_state.users = users
+
+# LOGIN STATE
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
@@ -304,13 +330,17 @@ def signup():
             st.warning("Username already exists")
 
         elif new_pass != confirm_pass:
-            st.warning("Passwords do not match")
+            st.warning("passwords do not match")
 
         elif new_user == "" or new_pass == "":
             st.warning("Fields cannot be empty")
 
         else:
             st.session_state.users[new_user] = new_pass
+            #save to file
+            with open(USER_FILE, "wb") as f:
+                pickle.dump(st.session_state.users, f)
+            
             st.success("Account Created Successfully ✅")
             st.info("Go to Login Page")
 
