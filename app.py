@@ -327,6 +327,33 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
 #.block-container { padding: 0 !important; max-width: 100% !important; }
 
 
+
+#st.markdown("""
+#<style>
+
+[data-testid="stAppViewContainer"]{
+    background:#eef2ff;
+}
+
+.stButton button{
+    background:linear-gradient(135deg,#5b5ff6,#7c3aed);
+    color:white;
+    border:none;
+    border-radius:12px;
+    height:50px;
+    font-size:18px;
+    width:100%;
+}
+
+.stTextInput input{
+    border-radius:12px !important;
+    height:50px;
+}
+
+#</style>
+#""", unsafe_allow_html=True)
+
+
 .block-container {
     padding-top: 0rem !important;
     padding-bottom: 0rem !important;
@@ -654,62 +681,93 @@ def get_leaderboard():
 
 def show_login():
 
-    st.markdown("""
-    <div class="auth-container">
+    col1, col2 = st.columns(2)
 
-        <div class="auth-left">
+    # ================= LEFT SIDE =================
+    with col1:
 
-            <h1>Welcome Back!</h1>
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg,#5b5ff6,#7c3aed);
+            padding:80px 40px;
+            border-radius:25px;
+            height:600px;
+            color:white;
+            text-align:center;
+        ">
 
-            <p>
-            Sign in to continue your SalaryIQ dashboard
-            </p>
+        <h1 style="
+            font-size:55px;
+            margin-top:120px;
+        ">
+        Welcome Back!
+        </h1>
+
+        <p style="
+            font-size:20px;
+            color:#ddd6fe;
+        ">
+        Please enter your details
+        </p>
 
         </div>
+        """, unsafe_allow_html=True)
 
-        <div class="auth-right">
+    # ================= RIGHT SIDE =================
+    with col2:
 
-            <div class="auth-title">
-            Log In
-            </div>
+        st.markdown("""
+        <div style="
+            background:white;
+            padding:60px;
+            border-radius:25px;
+            height:600px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.08);
+        ">
+        """, unsafe_allow_html=True)
 
-    """, unsafe_allow_html=True)
+        st.markdown("""
+        <h1 style="
+            color:#5b5ff6;
+            text-align:center;
+            margin-bottom:40px;
+        ">
+        Log In
+        </h1>
+        """, unsafe_allow_html=True)
 
-    email = st.text_input(
-        "Email",
-        placeholder="Enter your email"
-    )
+        email = st.text_input(
+            "Email",
+            placeholder="Enter your email"
+        )
 
-    password = st.text_input(
-        "Password",
-        placeholder="Enter password",
-        type="password"
-    )
+        password = st.text_input(
+            "Password",
+            placeholder="Enter password",
+            type="password"
+        )
 
-    if st.button("Log In"):
+        st.write("")
 
-        st.session_state.logged_in = True
-        st.rerun()
+        if st.button("Log In"):
 
-    st.markdown("""
-        <br>
+            st.session_state.logged_in = True
+            st.rerun()
 
+        st.write("")
+
+        st.markdown("""
         <p style="text-align:center;">
         Don't have an account?
         </p>
+        """, unsafe_allow_html=True)
 
-    """, unsafe_allow_html=True)
+        if st.button("Sign Up"):
 
-    if st.button("Sign Up"):
+            st.session_state.auth_page = "signup"
+            st.rerun()
 
-        st.session_state.auth_page = "signup"
-        st.rerun()
-
-    st.markdown("""
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 
