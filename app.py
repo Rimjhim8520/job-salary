@@ -162,41 +162,6 @@ st.markdown("""
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
 #MainMenu, footer, header, .stDeployButton { visibility: hidden !important; display: none !important; }
-
-
-
-/* REMOVE EXTRA STREAMLIT SPACE */
-div[data-testid="stVerticalBlock"] > div:empty {
-    display: none !important;
-}
-
-.element-container {
-    margin-bottom: 0rem !important;
-}
-
-.stMarkdown {
-    margin-bottom: 0rem !important;
-}
-
-div.block-container {
-    padding-top: 0rem !important;
-}
-
-/* EXISTING CSS */
-.block-container { 
-    padding: 0 !important; 
-    max-width: 100% !important; 
-}
-section[data-testid="stSidebar"] { 
-    display: none !important; 
-}
-
-.stApp { 
-    background: #f8f9fc !important; 
-}
-
-
-
 #.block-container { padding: 0 !important; max-width: 100% !important; }
 
 
