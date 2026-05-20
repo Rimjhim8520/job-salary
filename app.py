@@ -162,7 +162,16 @@ st.markdown("""
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
 #MainMenu, footer, header, .stDeployButton { visibility: hidden !important; display: none !important; }
-.block-container { padding: 0 !important; max-width: 100% !important; }
+#.block-container { padding: 0 !important; max-width: 100% !important; }
+
+
+.block-container {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 100% !important;
+}
 section[data-testid="stSidebar"] { display: none !important; }
 .stApp { background: #f8f9fc !important; }
 
