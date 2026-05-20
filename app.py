@@ -286,7 +286,7 @@ section[data-testid="stSidebar"] { display: none !important; }
 .nav-name { font-size: 13px; font-weight: 500; color: #334155; }
 
 /* PAGE */
-.page-wrap { padding: 28px 36px; max-width: 1200px; margin: 0 auto; }
+.page-wrap { padding: 12px 20px; max-width: 1200px; margin: 0 auto; }
 .page-title { font-family: 'Syne', sans-serif !important; font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
 .page-sub { font-size: 14px; color: #64748b; margin-bottom: 24px; }
 
