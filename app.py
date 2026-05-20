@@ -14,12 +14,174 @@ from datetime import datetime
 # =========================
 # PAGE CONFIG
 # =========================
-st.set_page_config(
+'''st.set_page_config(
     page_title="SalaryIQ Pro — Know Your Worth",
     page_icon="💼",
     layout="wide",
     initial_sidebar_state="collapsed"
-)
+)'''
+
+st.markdown("""
+<style>
+
+/* =========================
+MAIN APP
+========================= */
+
+[data-testid="stAppViewContainer"]{
+    background:#eef2ff;
+}
+
+/* =========================
+FIXED SIDEBAR
+========================= */
+
+section[data-testid="stSidebar"]{
+    width:320px !important;
+    background:linear-gradient(180deg,#5b5ff6,#8b5cf6);
+    position:fixed;
+    height:100vh;
+    left:0;
+    top:0;
+    padding-top:20px;
+    border-right:1px solid #ddd;
+}
+
+section[data-testid="stSidebar"] > div{
+    width:320px !important;
+}
+
+/* =========================
+PROFILE CARD
+========================= */
+
+.profile-card{
+    background:rgba(255,255,255,0.12);
+    padding:25px;
+    border-radius:24px;
+    text-align:center;
+    color:white;
+    backdrop-filter: blur(12px);
+    margin-bottom:20px;
+}
+
+.profile-avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:white;
+    color:#5b5ff6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    font-weight:bold;
+    margin:auto;
+    margin-bottom:15px;
+}
+
+.profile-name{
+    font-size:30px;
+    font-weight:700;
+}
+
+.profile-email{
+    color:#e0e7ff;
+    font-size:14px;
+}
+
+/* =========================
+LOGIN PAGE
+========================= */
+
+.auth-container{
+    display:flex;
+    height:100vh;
+    border-radius:28px;
+    overflow:hidden;
+    background:white;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.auth-left{
+    flex:1;
+    background:linear-gradient(135deg,#5b5ff6,#7c3aed);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+}
+
+.auth-left h1{
+    font-size:52px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.auth-left p{
+    font-size:18px;
+    color:#ddd6fe;
+}
+
+.auth-right{
+    flex:1;
+    padding:70px;
+    background:white;
+}
+
+.auth-title{
+    font-size:40px;
+    font-weight:700;
+    color:#4f46e5;
+    margin-bottom:30px;
+}
+
+.stTextInput input{
+    border-radius:12px !important;
+    height:50px;
+}
+
+.stButton button{
+    background:linear-gradient(135deg,#5b5ff6,#7c3aed);
+    color:white;
+    border:none;
+    border-radius:12px;
+    height:50px;
+    font-size:18px;
+    font-weight:600;
+    width:100%;
+}
+
+/* =========================
+TOP NAVIGATION
+========================= */
+
+.top-nav{
+    background:white;
+    padding:16px 24px;
+    border-radius:20px;
+    margin-bottom:20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
+}
+
+/* =========================
+CARDS
+========================= */
+
+.dashboard-card{
+    background:white;
+    padding:25px;
+    border-radius:24px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom:20px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
 
 # =========================
 # LOAD MODEL FILES
@@ -447,7 +609,7 @@ def get_leaderboard():
 # =========================
 # LOGIN
 # =========================
-def show_login():
+'''def show_login():
     st.markdown('<div class="auth-wrap">', unsafe_allow_html=True)
     st.markdown("""
     <div class="auth-panel">
@@ -486,7 +648,70 @@ def show_login():
         if st.button("Create a free account →", key="goto_signup"):
             st.session_state.auth_page = "signup"
             st.rerun()
-        st.markdown("<p style='text-align:center;font-size:12px;color:#94a3b8;margin-top:16px;'>🔒 Your data is private and never shared.</p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align:center;font-size:12px;color:#94a3b8;margin-top:16px;'>🔒 Your data is private and never shared.</p>", unsafe_allow_html=True)'''
+
+
+
+def show_login():
+
+    st.markdown("""
+    <div class="auth-container">
+
+        <div class="auth-left">
+
+            <h1>Welcome Back!</h1>
+
+            <p>
+            Sign in to continue your SalaryIQ dashboard
+            </p>
+
+        </div>
+
+        <div class="auth-right">
+
+            <div class="auth-title">
+            Log In
+            </div>
+
+    """, unsafe_allow_html=True)
+
+    email = st.text_input(
+        "Email",
+        placeholder="Enter your email"
+    )
+
+    password = st.text_input(
+        "Password",
+        placeholder="Enter password",
+        type="password"
+    )
+
+    if st.button("Log In"):
+
+        st.session_state.logged_in = True
+        st.rerun()
+
+    st.markdown("""
+        <br>
+
+        <p style="text-align:center;">
+        Don't have an account?
+        </p>
+
+    """, unsafe_allow_html=True)
+
+    if st.button("Sign Up"):
+
+        st.session_state.auth_page = "signup"
+        st.rerun()
+
+    st.markdown("""
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
 
 
 # =========================
