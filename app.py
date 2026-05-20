@@ -162,6 +162,41 @@ st.markdown("""
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
 #MainMenu, footer, header, .stDeployButton { visibility: hidden !important; display: none !important; }
+
+
+
+/* REMOVE EXTRA STREAMLIT SPACE */
+div[data-testid="stVerticalBlock"] > div:empty {
+    display: none !important;
+}
+
+.element-container {
+    margin-bottom: 0rem !important;
+}
+
+.stMarkdown {
+    margin-bottom: 0rem !important;
+}
+
+div.block-container {
+    padding-top: 0rem !important;
+}
+
+/* EXISTING CSS */
+.block-container { 
+    padding: 0 !important; 
+    max-width: 100% !important; 
+}
+section[data-testid="stSidebar"] { 
+    display: none !important; 
+}
+
+.stApp { 
+    background: #f8f9fc !important; 
+}
+
+
+
 #.block-container { padding: 0 !important; max-width: 100% !important; }
 
 
@@ -179,10 +214,10 @@ section[data-testid="stSidebar"] { display: none !important; }
 .auth-wrap {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 50%, #f0fff4 100%);
-    padding: 40px 20px;
+    padding: 10px 20px;
 }
 .auth-panel {
-    background: #ffffff; border-radius: 24px; padding: 48px 44px;
+    background: #ffffff; border-radius: 24px; padding: 28px 28px;
     width: 100%; max-width: 460px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 20px 60px rgba(99,102,241,0.08);
     border: 1px solid rgba(99,102,241,0.08);
@@ -281,7 +316,7 @@ section[data-testid="stSidebar"] { display: none !important; }
 .top-nav {
     background: #ffffff; border-bottom: 1px solid #e2e8f0;
     padding: 0 32px; display: flex; align-items: center; justify-content: space-between;
-    height: 56px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    height: 48px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 .nav-brand { font-family: 'Syne', sans-serif !important; font-size: 18px; font-weight: 800; color: #1e1b4b; }
 .nav-brand em { color: #6366f1; font-style: normal; }
@@ -296,13 +331,13 @@ section[data-testid="stSidebar"] { display: none !important; }
 
 /* PAGE */
 .page-wrap { padding: 12px 20px; max-width: 1200px; margin: 0 auto; }
-.page-title { font-family: 'Syne', sans-serif !important; font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
-.page-sub { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+.page-title { font-family: 'Syne', sans-serif !important; font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 0px; }
+.page-sub { font-size: 14px; color: #64748b; margin-bottom: 12px; }
 
 /* CARDS */
 .card {
     background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0;
-    padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 16px;
+    padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 10px;
 }
 .card-title { font-size: 11px; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
 
