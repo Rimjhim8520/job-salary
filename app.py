@@ -500,10 +500,10 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .stat-strip-lbl{{font-size:11px;color:{TEXT2}!important;margin-top:3px;font-weight:500;}}
 
 /* ── LOGIN ── */
-'''.login-card{{
+.login-card{{
   background:{CARD_BG};border:1px solid {CARD_BORDER};
   padding:32px;border-radius:22px;box-shadow:{GLOW};
-}}'''
+}}
 .login-heading{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:{TEXT1}!important;margin-bottom:6px;}}
 .login-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:24px;}}
 
@@ -1052,7 +1052,13 @@ def show_roadmap():
         st.markdown('</div>', unsafe_allow_html=True)
     with ci:
         curr=steps[cs]; nxt=steps[min(cs+1,len(steps)-1)]; sk=SKILLS_BY_ROLE.get(job,SKILLS_BY_ROLE["Other"])[:4]
-        st.markdown(f'<div class="card" style="background:{ACCENT_SOFT};border-color:{ACCENT_BORDER};margin-bottom:12px;"><div class="card-title">🎯 Your Next Goal</div><div style="font-size:18px;font-weight:800;color:{TEXT1};margin-bottom:8px;font-family:\'Plus Jakarta Sans\',sans-serif;">{nxt}</div><div style="font-size:13px;color:{TEXT2};line-height:1.6;">Currently at <strong style="color:{TEXT1};">{curr}</strong>. Build 1–2 impactful projects, master the skills below, and apply for senior roles.</div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="card" style="background:{ACCENT_SOFT};border-color:{ACCENT_BORDER};margin-bottom:12px;">'
+            f'<div class="card-title">🎯 Your Next Goal</div>'
+            f'<div style="font-size:18px;font-weight:800;color:{TEXT1};margin-bottom:8px;font-family:Plus Jakarta Sans,sans-serif;">{nxt}</div>'
+            f'<div style="font-size:13px;color:{TEXT2};line-height:1.6;">Currently at <strong style="color:{TEXT1};">{curr}</strong>. Build 1-2 impactful projects, master the skills below, and apply for senior roles.</div>'
+            f'</div>',
+            unsafe_allow_html=True)
         st.markdown(f'<div class="card"><div class="card-title">🛠️ Skills for Next Level</div>', unsafe_allow_html=True)
         for s in sk: st.markdown(f'<span class="pill">{s}</span>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
@@ -1089,8 +1095,8 @@ def show_compare():
     st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
     st.markdown('<div class="page-title">⚖️ Compare Yourself</div>', unsafe_allow_html=True)
     if not st.session_state.last_prediction:
-       st.markdown(f'<div class="card" style="text-align:center;margin-bottom:14px;"><div class="card-title">🎯 Your Market Position</div><div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:{font},sans-serif;">{pr}th</div><div style="font-size:13px;color:{TEXT2};margin-top:4px;">percentile in your field</div><div style="font-size:13px;color:{TEXT2};margin-top:12px;line-height:1.6;">You earn more than <strong style="color:{TEXT1};">{pr}%</strong> of similar professionals.{upskill_msg}</div></div>', unsafe_allow_html=True)
-       st.markdown('</div>', unsafe_allow_html=True); return
+        st.markdown(f'<div style="text-align:center;padding:70px;"><div style="font-size:56px;margin-bottom:16px;">⚖️</div><div style="font-size:20px;font-weight:800;color:{TEXT1};margin-bottom:8px;">Run a prediction first</div></div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True); return
 
     salary=st.session_state.last_prediction; inp=st.session_state.last_inputs; job=inp["job_title"]
     base=max(40000,salary-random.randint(10000,20000))
@@ -1103,8 +1109,39 @@ def show_compare():
         for label,val,color in bm:
             pct=int((val/mx)*100); iy="Your Salary" in label
             yb=f"background:{ACCENT_SOFT};border-radius:10px;padding:10px 12px;border:1px solid {ACCENT_BORDER};" if iy else ""
-            st.markdown(f'<div class="compare-bar-wrap" style="{yb}"><div class="compare-bar-label"><span style="font-size:13px;font-weight:{"700" if iy else "500"};color:{ACCENT if iy else TEXT1};">{label}</span><span style="font-size:13px;font-weight:700;color:{ACCENT if iy else TEXT1};">₹{val:,}</span></div><div class="compare-bar-track"><div class="compare-bar-fill" style="width:{pct}%;background:{color};"></div></div></div>', unsafe_allow_html=True)
+            fw="700" if iy else "500"
+            fc=ACCENT if iy else TEXT1
+            st.markdown(
+                f'<div class="compare-bar-wrap" style="{yb}">'
+                f'<div class="compare-bar-label">'
+                f'<span style="font-size:13px;font-weight:{fw};color:{fc};">{label}</span>'
+                f'<span style="font-size:13px;font-weight:700;color:{fc};">₹{val:,}</span>'
+                f'</div>'
+                f'<div class="compare-bar-track">'
+                f'<div class="compare-bar-fill" style="width:{pct}%;background:{color};"></div>'
+                f'</div></div>',
+                unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
     with c2:
         pr=min(95,max(25,int(30+(salary/top5)*65))); gap=max(0,top10-salary)
-        st.markdown(f'<div class="card" style="text-align:center;margin-bottom:14px;"><div class="card-title">🎯 Your Market Position</div><div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:\'Plus Jakarta Sans\',
+        upskill = "" if pr>=90 else " Upskill to break into the top 10%!"
+        gap_text = "Already there! 🎉" if gap==0 else f"₹{gap:,}"
+        gap_msg = "You have cracked the top 10% — exceptional!" if gap==0 else "Add 2-3 high-demand skills and apply for senior roles to close this gap in 1-2 years."
+        st.markdown(
+            f'<div class="card" style="text-align:center;margin-bottom:14px;">'
+            f'<div class="card-title">🎯 Your Market Position</div>'
+            f'<div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});'
+            f'-webkit-background-clip:text;-webkit-text-fill-color:transparent;'
+            f'background-clip:text;font-family:Plus Jakarta Sans,sans-serif;">{pr}th</div>'
+            f'<div style="font-size:13px;color:{TEXT2};margin-top:4px;">percentile in your field</div>'
+            f'<div style="font-size:13px;color:{TEXT2};margin-top:12px;line-height:1.6;">'
+            f'You earn more than <strong style="color:{TEXT1};">{pr}%</strong> of similar professionals.{upskill}'
+            f'</div></div>',
+            unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="card">'
+            f'<div class="card-title">💰 Gap to Top 10%</div>'
+            f'<div style="font-size:22px;font-weight:800;color:{ACCENT};font-family:Plus Jakarta Sans,sans-serif;">{gap_text}</div>'
+            f'<div style="font-size:13px;color:{TEXT2};margin-top:8px;line-height:1.6;">{gap_msg}</div>'
+            f'</div>',
+            unsafe_allow_html=True)
