@@ -208,7 +208,19 @@ st.markdown(f"""
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
 html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 #MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
-.block-container{{padding:0!important;max-width:100%!important;}}
+
+/* ── REMOVE ALL DEFAULT STREAMLIT PADDING ── */
+.block-container{{
+  padding:0!important;
+  max-width:100%!important;
+}}
+[data-testid="stAppViewContainer"]{{
+  padding:0!important;
+}}
+[data-testid="stMain"]{{
+  padding:0!important;
+  overflow:visible!important;
+}}
 
 /* ── APP BG ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
@@ -217,7 +229,8 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 section[data-testid="stSidebar"]{{
   background:{SIDEBAR_BG}!important;
   border-right:1px solid {CARD_BORDER}!important;
-  min-width:270px!important; max-width:270px!important;
+  min-width:270px!important;
+  max-width:270px!important;
   transition:all 0.3s;
 }}
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
@@ -297,20 +310,19 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   box-shadow:none!important;border-radius:9px!important;
 }}
 
-
 /* ── TOP HEADER ── */
 .top-header{{
-  background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};
-  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
-  height:60px;box-shadow:{GLOW};
-  position:sticky;top:0;z-index:999;
-  margin-top:-4px !important;
-}}
-.block-container{{
-  padding-top:0 !important;
-  padding-left:0 !important;
-  padding-right:0 !important;
-  max-width:100% !important;
+  background:{NAV_BG};
+  border-bottom:1px solid {CARD_BORDER};
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:60px;
+  box-shadow:{GLOW};
+  position:sticky;
+  top:0;
+  z-index:999;
 }}
 .top-logo{{
   font-family:'Plus Jakarta Sans',sans-serif!important;
@@ -336,9 +348,6 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   box-shadow:0 2px 8px rgba(99,102,241,0.35);
 }}
 .top-username{{font-size:13px;font-weight:600;color:{TEXT1}!important;}}
-
-
-
 
 /* ── NAV TABS ── */
 .nav-tabs-outer{{
@@ -736,14 +745,12 @@ def show_sidebar():
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:4px 0;"></div>', unsafe_allow_html=True)
 
-    # Theme toggle
     st.sidebar.markdown(f'<div style="padding:8px 14px 4px;"><div class="sb-section-title" style="margin:0 0 8px;">🎨 Appearance</div></div>', unsafe_allow_html=True)
     st.sidebar.markdown('<div class="theme-sb" style="padding:0 14px 8px;">', unsafe_allow_html=True)
     if st.sidebar.button(TOGGLE_LBL, key="theme_toggle"):
         st.session_state.dark_mode = not st.session_state.dark_mode; st.rerun()
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
-    # Sign out
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:4px 0;"></div>', unsafe_allow_html=True)
     st.sidebar.markdown('<div class="signout-wrap">', unsafe_allow_html=True)
     if st.sidebar.button("🚪 Sign Out", key="signout"):
@@ -796,7 +803,6 @@ def show_topbar():
 def show_home():
     st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
 
-    # Hero section
     st.markdown(f"""
     <div style="background:{HERO_BG};border-radius:24px;padding:48px 40px;margin-bottom:28px;
                 position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
@@ -818,7 +824,6 @@ def show_home():
       </div>
     </div>""", unsafe_allow_html=True)
 
-    # Stats strip
     st.markdown(f"""
     <div class="stat-strip">
       <div class="stat-strip-item"><div class="stat-strip-val">50K+</div><div class="stat-strip-lbl">Predictions Made</div></div>
@@ -827,7 +832,6 @@ def show_home():
       <div class="stat-strip-item"><div class="stat-strip-val">10K+</div><div class="stat-strip-lbl">Active Users</div></div>
     </div>""", unsafe_allow_html=True)
 
-    # Feature cards
     f1,f2,f3,f4 = st.columns(4)
     cards = [("🎯","Accurate","KNN model trained on 250K+ real salary records across industries."),
              ("⚡","Instant","Get your salary prediction in under 1 second — no waiting."),
@@ -837,7 +841,6 @@ def show_home():
         with col:
             st.markdown(f'<div class="feature-card"><div class="feature-icon">{icon}</div><div class="feature-title">{title}</div><div class="feature-desc">{desc}</div></div>', unsafe_allow_html=True)
 
-    # How it works
     st.markdown(f'<br><div class="section-heading">🔄 How It Works</div>', unsafe_allow_html=True)
     h1,h2,h3,h4 = st.columns(4)
     steps = [("1️⃣","Fill Profile","Enter your experience, skills, education, and job details"),
@@ -932,7 +935,8 @@ def show_predict(model, scaler, columns):
 
         st.markdown(f'<div style="background:{SUCCESS_BG};border:1px solid {SUCCESS_B};border-radius:12px;padding:14px 18px;margin-top:12px;"><span style="font-size:14px;color:#10b981;font-weight:700;">✅ Prediction saved!</span><span style="font-size:13px;color:{TEXT2};"> Go to 💡 Insights to get tips and send to WhatsApp.</span></div>', unsafe_allow_html=True)
         st.balloons()
-     
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # INSIGHTS PAGE (with WhatsApp)
@@ -949,7 +953,6 @@ def show_insights():
     cert=inp["certifications"]; edu=inp["education_level"]; ind=inp["industry"]
     icon_map={"blue":"insight-icon-blue","green":"insight-icon-green","amber":"insight-icon-amber","rose":"insight-icon-rose"}
 
-    # ── Boost Tips ──
     st.markdown(f'<div class="card"><div class="card-title">🚀 How to Boost Your Salary</div>', unsafe_allow_html=True)
     for icon,title,desc,color in salary_boost_tips(job,exp,sc,cert,edu):
         st.markdown(f'<div class="insight-card"><div class="insight-icon {icon_map[color]}">{icon}</div><div><div class="insight-title">{title}</div><div class="insight-desc">{desc}</div></div></div>', unsafe_allow_html=True)
@@ -968,7 +971,6 @@ def show_insights():
         trend = INDUSTRY_TRENDS.get(ind,INDUSTRY_TRENDS["Other"])
         st.markdown(f'<div class="card"><div class="card-title">📈 Industry Trends — {ind}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;"><div class="metric-card"><div class="metric-label">Growth</div><div class="metric-value">{trend["growth"]}</div><div class="metric-sub">↑ YoY</div></div><div class="metric-card"><div class="metric-label">Demand</div><div class="metric-value" style="font-size:15px;">{trend["demand"]}</div></div><div class="metric-card"><div class="metric-label">Top Pay</div><div class="metric-value" style="font-size:15px;">{trend["top_pay"]}</div></div><div class="metric-card"><div class="metric-label">Outlook</div><div class="metric-value" style="font-size:15px;">{trend["outlook"]}</div></div></div><div style="background:{ACCENT_SOFT};border-radius:12px;padding:12px 14px;border:1px solid {ACCENT_BORDER};"><div style="font-size:12px;color:{ACCENT};font-weight:700;margin-bottom:4px;">💡 Key Insight</div><div style="font-size:12px;color:{TEXT2};line-height:1.6;">Growing <strong style="color:{TEXT1};">{trend["growth"]}</strong>/yr. Top talent earns <strong style="color:{TEXT1};">{trend["top_pay"]}</strong>. Strong time to upskill and negotiate.</div></div></div>', unsafe_allow_html=True)
 
-    # ── What-If Simulator ──
     st.markdown(f'<div class="card"><div class="card-title">⚡ What-If Salary Simulator</div><p style="font-size:13px;color:{TEXT2};margin-bottom:16px;">Drag sliders to see the salary impact of each improvement.</p>', unsafe_allow_html=True)
     s1,s2,s3 = st.columns(3)
     with s1:
@@ -982,12 +984,11 @@ def show_insights():
         st.markdown(f'<div class="metric-card"><div class="metric-label">+{xc} certs</div><div class="metric-value">₹{sc_:,}</div><div class="metric-sub trend-up">+₹{sc_-salary:,}</div></div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # ── WhatsApp Feature ──
     st.markdown(f"""
     <div class="wa-card">
       <div class="wa-title">📱 Send Insights to WhatsApp</div>
       <div class="wa-desc">
-        Get your complete career insights report — salary prediction, growth tips, skill roadmap, and industry trends — delivered directly to your WhatsApp. Enter your number below and click the button.
+        Get your complete career insights report — salary prediction, growth tips, skill roadmap, and industry trends — delivered directly to your WhatsApp.
       </div>
     </div>""", unsafe_allow_html=True)
 
@@ -1017,8 +1018,7 @@ def show_insights():
         <div style="background:{SUCCESS_BG};border:1px solid {SUCCESS_B};border-radius:14px;padding:18px 20px;margin-top:12px;">
           <div style="font-size:14px;font-weight:700;color:#10b981;margin-bottom:8px;">✅ WhatsApp link ready!</div>
           <div style="font-size:13px;color:{TEXT2};margin-bottom:14px;line-height:1.6;">
-            Click the button below to open WhatsApp with your pre-filled career insights report. 
-            It will open WhatsApp Web or the app on your device.
+            Click the button below to open WhatsApp with your pre-filled career insights report.
           </div>
           <div class="wa-btn"><a href="{wa_url}" target="_blank">📱 Open WhatsApp & Send Report</a></div>
           <div style="margin-top:12px;font-size:11px;color:{TEXT3};">ℹ️ Opens WhatsApp with your full report pre-filled. Just press Send!</div>
@@ -1107,75 +1107,4 @@ def show_compare():
         st.markdown('</div>', unsafe_allow_html=True)
     with c2:
         pr=min(95,max(25,int(30+(salary/top5)*65))); gap=max(0,top10-salary)
-        st.markdown(f'<div class="card" style="text-align:center;margin-bottom:14px;"><div class="card-title">🎯 Your Market Position</div><div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:\'Plus Jakarta Sans\',sans-serif;">{pr}th</div><div style="font-size:13px;color:{TEXT2};margin-top:4px;">percentile in your field</div><div style="font-size:13px;color:{TEXT2};margin-top:12px;line-height:1.6;">You earn more than <strong style="color:{TEXT1};">{pr}%</strong> of similar professionals.{"" if pr>=90 else " Upskill to break into the top 10%!"}</div></div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="card"><div class="card-title">💰 Gap to Top 10%</div><div style="font-size:22px;font-weight:800;color:{ACCENT};font-family:\'Plus Jakarta Sans\',sans-serif;">{"Already there! 🎉" if gap==0 else f"₹{gap:,}"}</div><div style="font-size:13px;color:{TEXT2};margin-top:8px;line-height:1.6;">{"You\'ve cracked the top 10% — exceptional!" if gap==0 else "Add 2–3 high-demand skills and apply for senior roles to close this gap in 1–2 years."}</div></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# =========================
-# LEADERBOARD PAGE
-# =========================
-def show_leaderboard():
-    st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
-    st.markdown('<div class="page-title">🏆 Leaderboard</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="page-sub">Top predicted salaries across all SalaryIQ users.</div>', unsafe_allow_html=True)
-    if st.session_state.last_prediction:
-        s=st.session_state.last_prediction; j=st.session_state.last_inputs.get("job_title","Professional") if st.session_state.last_inputs else "Professional"; e=st.session_state.last_inputs.get("experience_years",0) if st.session_state.last_inputs else 0
-        st.markdown(f'<div style="background:{ACCENT_SOFT};border:1.5px solid {ACCENT_BORDER};border-radius:16px;padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;"><div><div style="font-size:10px;color:{ACCENT};font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Your Best Prediction</div><div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:20px;font-weight:800;color:{TEXT1};">{st.session_state.username} <span style="font-size:13px;color:{TEXT2};font-weight:400;">· {j} · {e} yrs</span></div></div><div style="text-align:right;"><div style="font-size:10px;color:{ACCENT};font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Predicted</div><div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:22px;font-weight:900;color:{ACCENT};">₹{s:,}</div></div></div>', unsafe_allow_html=True)
-    lb=[{"name":"Rahul S.","job":"AI Engineer","exp":8,"salary":195000},
-        {"name":"Priya M.","job":"Data Scientist","exp":6,"salary":175000},
-        {"name":"Arjun K.","job":"Cloud Engineer","exp":10,"salary":168000},
-        {"name":"Sneha R.","job":"Software Engineer","exp":7,"salary":155000},
-        {"name":"Vikram T.","job":"DevOps Engineer","exp":9,"salary":148000},
-        {"name":"Meera J.","job":"Product Manager","exp":8,"salary":142000},
-        {"name":"Kiran P.","job":"ML Engineer","exp":5,"salary":135000}]
-    medals=["🥇","🥈","🥉"]; rcls=["gold","silver","bronze"]
-    st.markdown(f'<div class="card"><div class="card-title">🏆 Top Earners — This Month</div>', unsafe_allow_html=True)
-    for i,e in enumerate(lb):
-        m=medals[i] if i<3 else f"#{i+1}"; c=rcls[i] if i<3 else ""
-        st.markdown(f'<div class="lb-row {c}"><div class="lb-rank">{m}</div><div style="flex:1;"><div class="lb-name">{e["name"]}</div><div class="lb-role">{e["job"]} &nbsp;·&nbsp; {e["exp"]} yrs exp</div></div><div class="lb-salary">₹{e["salary"]:,}</div></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# =========================
-# ENTRY POINT
-# =========================
-if not st.session_state.logged_in:
-    # auth theme toggle
-    st.sidebar.markdown('<div class="theme-sb" style="padding:16px 14px 8px;">', unsafe_allow_html=True)
-    if st.sidebar.button(TOGGLE_LBL, key="auth_theme"):
-        st.session_state.dark_mode = not st.session_state.dark_mode; st.rerun()
-    st.sidebar.markdown('</div>', unsafe_allow_html=True)
-
-    # Top navbar for auth
-    st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
-
-    menu = st.sidebar.radio("", ["🔐 Login","📝 Sign Up"], label_visibility="collapsed")
-    if "Login" in menu: show_login()
-    else:               show_signup()
-
-else:
-    try:
-        model, scaler, columns = load_model()
-        model_loaded = True
-    except:
-        model_loaded = False
-
-    if "wa_ready" not in st.session_state:
-        st.session_state["wa_ready"] = False
-
-    show_sidebar()
-    show_topbar()
-
-    tab = st.session_state.active_tab
-    if   tab == "home":        show_home()
-    elif tab == "predict":
-        if model_loaded: show_predict(model, scaler, columns)
-        else: st.error("⚠️ Model files not found. Please add knn_model.pkl, scaler.pkl, columns.pkl.")
-    elif tab == "insights":    show_insights()
-    elif tab == "roadmap":     show_roadmap()
-    elif tab == "dashboard":   show_dashboard()
-    elif tab == "compare":     show_compare()
-    elif tab == "leaderboard": show_leaderboard()
-
-# FOOTER
-st.markdown(f'<div class="footer">💼 SalaryIQ Pro &nbsp;·&nbsp; Made with ❤️ using Streamlit &nbsp;·&nbsp; AI-Powered Career Intelligence</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="card" style="text-align:center;margin-bottom:14px;"><div class="card-title">🎯 Your Market Position</div><div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:\'Plus Jakarta Sans\',
