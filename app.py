@@ -1,4 +1,4 @@
-'''# =========================
+# =========================
 # IMPORT LIBRARIES
 # =========================
 import streamlit as st
@@ -1054,7 +1054,7 @@ if st.session_state.logged_in:
 elif st.session_state.auth_page == "signup":
     show_signup()
 else:
-    show_login()'''
+    show_login()
 
 
 
@@ -1062,7 +1062,7 @@ else:
 
 
 
-# =========================
+'''# =========================
 # IMPORT LIBRARIES
 # =========================
 import streamlit as st
@@ -2101,7 +2101,7 @@ if st.session_state.logged_in:
 elif st.session_state.auth_page == "signup":
     show_signup()
 else:
-    show_login()
+    show_login()'''
 
 
 
