@@ -301,7 +301,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .top-header{{
   background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};
   padding:0 28px;display:flex;align-items:center;justify-content:space-between;
-  height:60px;box-shadow:{GLOW};position:sticky;top:0;z-index:100;
+  height:60px;box-shadow:{GLOW};top:0;z-index:100;
 }}
 .top-logo{{
   font-family:'Plus Jakarta Sans',sans-serif!important;
