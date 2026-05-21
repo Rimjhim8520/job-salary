@@ -500,10 +500,10 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .stat-strip-lbl{{font-size:11px;color:{TEXT2}!important;margin-top:3px;font-weight:500;}}
 
 /* ── LOGIN ── */
-.login-card{{
+'''.login-card{{
   background:{CARD_BG};border:1px solid {CARD_BORDER};
   padding:32px;border-radius:22px;box-shadow:{GLOW};
-}}
+}}'''
 .login-heading{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:{TEXT1}!important;margin-bottom:6px;}}
 .login-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:24px;}}
 
