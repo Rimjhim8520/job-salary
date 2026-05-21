@@ -220,6 +220,11 @@ section[data-testid="stSidebar"]{{
   min-width:270px!important; max-width:270px!important;
   transition:all 0.3s;
 }}
+section[data-testid="stSidebar"][aria-expanded="false"]{{
+  min-width:0!important;
+  max-width:0!important;
+  overflow:hidden!important;
+}}
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
@@ -302,6 +307,24 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};
   padding:0 28px;display:flex;align-items:center;justify-content:space-between;
   height:60px;box-shadow:{GLOW};position:relative;top:0;z-index:100;margin-top:0 !important;
+}}
+/* Fix header visibility when sidebar collapses */
+.main .block-container{{
+  padding-top:0 !important;
+  max-width:100% !important;
+}}
+[data-testid="stAppViewContainer"]>[data-testid="stMain"]{{
+  overflow:visible !important;
+}}
+[data-testid="stMain"] .block-container{{
+  padding-top:0 !important;
+  padding-left:1rem !important;
+  padding-right:1rem !important;
+}}
+section[data-testid="stSidebar"][aria-expanded="false"]~
+  [data-testid="stAppViewContainer"] .top-header{{
+  display:flex !important;
+  visibility:visible !important;
 }}
 .top-logo{{
   font-family:'Plus Jakarta Sans',sans-serif!important;
