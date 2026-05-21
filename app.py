@@ -1089,8 +1089,6 @@ def show_compare():
     st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
     st.markdown('<div class="page-title">⚖️ Compare Yourself</div>', unsafe_allow_html=True)
     if not st.session_state.last_prediction:
-       font = "Plus Jakarta Sans"
-       upskill_msg = "" if pr >= 90 else " Upskill to break into the top 10%!"
        st.markdown(f'<div class="card" style="text-align:center;margin-bottom:14px;"><div class="card-title">🎯 Your Market Position</div><div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:{font},sans-serif;">{pr}th</div><div style="font-size:13px;color:{TEXT2};margin-top:4px;">percentile in your field</div><div style="font-size:13px;color:{TEXT2};margin-top:12px;line-height:1.6;">You earn more than <strong style="color:{TEXT1};">{pr}%</strong> of similar professionals.{upskill_msg}</div></div>', unsafe_allow_html=True)
        st.markdown('</div>', unsafe_allow_html=True); return
 
