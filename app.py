@@ -226,7 +226,7 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 
 
 /* Text Visibility */
-  li, p, label {{color:#38BDF8!important;font-size: 16px;
+  li, p, label ,div {{color:#38BDF8!important;font-size: 16px;
 }}
 
 /* ── SIDEBAR ── */
