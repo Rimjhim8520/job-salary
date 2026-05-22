@@ -875,7 +875,7 @@ def show_predict(model, scaler, columns):
     with col1:
         st.markdown(f'<div class="card"><div class="card-title">📊 Experience & Skills</div>', unsafe_allow_html=True)
         exp    = st.number_input("Years of Experience",0,30,key="exp")
-        skills = st.number_input("Number of Skills",  1,50, key="skills")
+        skills = st.number_input("Number of Skills",  0,50, key="skills")
         cert   = st.number_input("Certifications",    0,20, key="cert")
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown(f'<div class="card"><div class="card-title">🎓 Education & Role</div>', unsafe_allow_html=True)
