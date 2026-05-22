@@ -515,7 +515,7 @@ p,li{{color:{TEXT2}!important;}}
 /* ── INPUTS ── */
 .stTextInput input,.stNumberInput input{{
   background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;
-  border-radius:11px!important;color:{TEXT1}!important;font-size:14px!important;padding:10px 14px!important;
+  border-radius:11px!important;color:#38BDF8!important;font-size:14px!important;padding:10px 14px!important;
 }}
 .stTextInput input:focus,.stNumberInput input:focus{{border-color:{ACCENT}!important;box-shadow:0 0 0 3px {ACCENT_SOFT}!important;}}
 .stTextInput label,.stNumberInput label,.stSelectbox label{{color:{TEXT2}!important;font-size:12px!important;font-weight:600!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}}
