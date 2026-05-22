@@ -528,7 +528,7 @@ p,li{{color:{TEXT2}!important;}}
 /* ── BUTTONS ── */
 .stButton>button{{
   background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;
-  display:flex!important;justify-content:center!important:align-items:center!important;
+  display:flex!important;justify-content:center!important;align-items:center!important;
   color:#fff!important;border:none!important;border-radius:11px!important;
   height:46px!important;font-size:14px!important;font-weight:700!important;
   box-shadow:0 4px 16px rgba(99,102,241,0.3)!important;transition:all 0.2s!important;
