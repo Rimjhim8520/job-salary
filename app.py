@@ -224,6 +224,13 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* ── APP BG ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 
+
+/* Text Visibility */
+  p, li, label, div {
+    color:#f1f5f9!important;
+    font-size: 16px;
+}
+
 /* ── SIDEBAR ── */
 section[data-testid="stSidebar"]{{
   background:{SIDEBAR_BG}!important;
