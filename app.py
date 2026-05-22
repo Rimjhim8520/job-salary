@@ -579,7 +579,8 @@ def build_whatsapp_message(inp, salary):
 👤 *Profile Summary*
 • Role: {job}
 • Experience: {exp} years ({sen})
-• Skills: {skills} | Certifications: {cert}
+• Skills: {skills}
+• Certifications: {cert}
 • Education: {edu}
 • Industry: {ind}
 
