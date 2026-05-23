@@ -156,6 +156,10 @@ if dm:
     WA_BG         = "rgba(37,211,102,0.12)"
     WA_BORDER     = "rgba(37,211,102,0.3)"
     WA_COLOR      = "#25D366"
+    LANDING_BG    = "linear-gradient(135deg,#0a0f1e 0%,#0f172a 50%,#1a1040 100%)"
+    LANDING_CARD  = "rgba(15,23,42,0.85)"
+    LANDING_TEXT  = "#f1f5f9"
+    LANDING_SUB   = "#94a3b8"
 else:
     BG            = "linear-gradient(135deg,#f0f4ff 0%,#faf5ff 50%,#f8f0ff 100%)"
     SIDEBAR_BG    = "#fafbff"
@@ -197,18 +201,10 @@ else:
     WA_BG         = "rgba(37,211,102,0.08)"
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
-
-# Sidebar state initialize
-if "show_profile" not in st.session_state:
-    st.session_state.show_profile = True
-
-# Toggle button exactly where arrow was
-toggle_col1, toggle_col2 = st.columns([1, 10])
-
-with toggle_col1:
-    if st.button("☰"):   # button icon
-        st.session_state.show_profile = not st.session_state.show_profile
-
+    LANDING_BG    = "linear-gradient(135deg,#f0f4ff 0%,#faf5ff 50%,#f8f0ff 100%)"
+    LANDING_CARD  = "#ffffff"
+    LANDING_TEXT  = "#1e1b4b"
+    LANDING_SUB   = "#6b7280"
 
 # =========================
 # INJECT CSS
@@ -224,10 +220,8 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* ── APP BG ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 
-
 /* Text Visibility */
-  div {{color:#38BDF8!important;font-size: 16px;
-}}
+div {{color:#38BDF8!important;font-size:16px;}}
 
 /* ── SIDEBAR ── */
 section[data-testid="stSidebar"]{{
@@ -236,45 +230,160 @@ section[data-testid="stSidebar"]{{
   min-width:270px!important; max-width:270px!important;
   transition:all 0.3s;
 }}
-
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
-/* PROFILE HEADER  */
+/* ── LANDING PAGE ── */
+.landing-wrap{{
+  min-height:100vh;
+  background:{LANDING_BG};
+  padding:0;
+}}
+.landing-navbar{{
+  background:{'rgba(8,13,26,0.95)' if dm else 'rgba(255,255,255,0.95)'};
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid {CARD_BORDER};
+  padding:0 40px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:200;
+  box-shadow:{GLOW};
+}}
+.landing-logo{{
+  font-family:'Plus Jakarta Sans',sans-serif!important;
+  font-size:22px;font-weight:900;color:{TEXT1}!important;
+  display:flex;align-items:center;gap:10px;letter-spacing:-0.5px;
+}}
+.landing-logo em{{
+  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;font-style:normal;
+}}
+.landing-badge{{
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;
+  background:{ACCENT_SOFT};color:{ACCENT}!important;
+  border:1px solid {ACCENT_BORDER};letter-spacing:.5px;text-transform:uppercase;
+}}
+.landing-hero{{
+  padding:80px 40px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}}
+.landing-hero::before{{
+  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,{'rgba(99,102,241,0.15)' if dm else 'rgba(99,102,241,0.08)'} 0%,transparent 70%);
+  pointer-events:none;
+}}
+.landing-hero-label{{
+  font-size:12px;font-weight:700;color:{ACCENT}!important;
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;
+  display:inline-block;background:{ACCENT_SOFT};border:1px solid {ACCENT_BORDER};
+  padding:6px 16px;border-radius:99px;
+}}
+.landing-hero-title{{
+  font-family:'Plus Jakarta Sans',sans-serif!important;
+  font-size:clamp(36px,5vw,64px);font-weight:900;
+  color:{TEXT1}!important;line-height:1.1;margin-bottom:20px;
+  letter-spacing:-1px;
+}}
+.landing-hero-title span{{
+  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}}
+.landing-hero-sub{{
+  font-size:18px;color:{TEXT2}!important;max-width:560px;
+  margin:0 auto 36px;line-height:1.7;
+}}
+.landing-badges{{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:50px;
+}}
+.landing-badge-pill{{
+  background:{'rgba(255,255,255,0.06)' if dm else 'rgba(255,255,255,0.8)'};
+  border:1px solid {CARD_BORDER};
+  color:{TEXT1}!important;padding:8px 20px;border-radius:99px;
+  font-size:13px;font-weight:600;
+  backdrop-filter:blur(10px);
+}}
+/* ── STAT STRIP ── */
+.stat-strip{{
+  background:{CARD_BG};border:1px solid {CARD_BORDER};border-radius:20px;
+  display:flex;padding:24px 0;margin-bottom:28px;box-shadow:{GLOW};
+  max-width:860px;margin-left:auto;margin-right:auto;margin-bottom:60px;
+}}
+.stat-strip-item{{flex:1;text-align:center;border-right:1px solid {DIVIDER};}}
+.stat-strip-item:last-child{{border-right:none;}}
+.stat-strip-val{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:28px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}}
+.stat-strip-lbl{{font-size:12px;color:{TEXT2}!important;margin-top:4px;font-weight:500;}}
+
+/* ── LANDING SECTION ── */
+.landing-section{{
+  padding:20px 40px 60px;
+  max-width:1100px;
+  margin:0 auto;
+}}
+.landing-section-title{{
+  font-family:'Plus Jakarta Sans',sans-serif!important;
+  font-size:32px;font-weight:900;color:{TEXT1}!important;
+  text-align:center;margin-bottom:8px;letter-spacing:-0.3px;
+}}
+.landing-section-sub{{
+  font-size:15px;color:{TEXT2}!important;
+  text-align:center;margin-bottom:36px;line-height:1.6;
+}}
+/* ── FEATURE CARDS ── */
+.feature-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:60px;}}
+.feature-card{{
+  background:{CARD_BG};border:1px solid {CARD_BORDER};
+  padding:28px 22px;border-radius:20px;text-align:center;
+  transition:all 0.3s;box-shadow:{GLOW};
+}}
+.feature-card:hover{{transform:translateY(-6px);box-shadow:0 20px 48px rgba(99,102,241,0.2);border-color:{ACCENT_BORDER};}}
+.feature-icon{{font-size:38px;margin-bottom:14px;}}
+.feature-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:15px;font-weight:800;color:{TEXT1}!important;margin-bottom:8px;}}
+.feature-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.6;}}
+
+/* ── HOW IT WORKS ── */
+.how-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:60px;}}
+.how-card{{
+  background:{CARD_BG};border:1px solid {CARD_BORDER};
+  padding:24px 18px;border-radius:18px;text-align:center;
+  box-shadow:{GLOW};
+}}
+.how-num{{font-size:30px;margin-bottom:12px;}}
+.how-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:15px;font-weight:800;color:{TEXT1}!important;margin-bottom:8px;}}
+.how-desc{{font-size:12px;color:{TEXT2}!important;line-height:1.6;}}
+
+/* ── CTA SECTION ── */
+.cta-section{{
+  background:{HERO_BG};border-radius:24px;
+  padding:56px 40px;text-align:center;
+  box-shadow:0 16px 48px rgba(99,102,241,0.35);
+  margin-bottom:60px;position:relative;overflow:hidden;
+}}
+.cta-section::before{{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06);}}
+.cta-section::after{{content:'';position:absolute;bottom:-40px;left:100px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.04);}}
+.cta-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:34px;font-weight:900;color:#fff!important;margin-bottom:12px;position:relative;z-index:1;letter-spacing:-0.3px;}}
+.cta-sub{{font-size:16px;color:rgba(255,255,255,0.75)!important;margin-bottom:32px;position:relative;z-index:1;line-height:1.6;}}
+
+/* ── PROFILE HEADER ── */
 .profile-card{{
   background:{PROFILE_BG};padding:28px 20px 18px;text-align:center;
   position:relative;overflow:hidden;
 }}
-.profile-card::before{{
-  content:'';position:absolute;top:-30px;right:-30px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(255,255,255,0.05);
-}}
-.profile-card::after{{
-  content:'';position:absolute;bottom:-20px;left:-20px;
-  width:80px;height:80px;border-radius:50%;
-  background:rgba(255,255,255,0.04);
-}}
-.profile-avatar{{
-  width:76px;height:76px;border-radius:50%;
-  background:rgba(255,255,255,0.2);
-  margin:0 auto 12px;display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:800;color:#fff!important;
-  border:3px solid rgba(255,255,255,0.5);
-  box-shadow:0 4px 20px rgba(0,0,0,0.3);
-  position:relative;z-index:1;
-}}
-.profile-name{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:17px;font-weight:800;color:#fff!important;
-  position:relative;z-index:1;
-}}
+.profile-card::before{{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.05);}}
+.profile-card::after{{content:'';position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.04);}}
+.profile-avatar{{width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,0.2);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff!important;border:3px solid rgba(255,255,255,0.5);box-shadow:0 4px 20px rgba(0,0,0,0.3);position:relative;z-index:1;}}
+.profile-name{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:17px;font-weight:800;color:#fff!important;position:relative;z-index:1;}}
 .profile-email{{font-size:11px;color:rgba(255,255,255,0.65)!important;margin-top:3px;position:relative;z-index:1;}}
 .profile-since{{font-size:10px;color:rgba(255,255,255,0.45)!important;margin-top:2px;position:relative;z-index:1;}}
-.profile-stats{{
-  display:flex;margin-top:16px;border-top:1px solid rgba(255,255,255,0.12);
-  padding-top:14px;position:relative;z-index:1;
-}}
+.profile-stats{{display:flex;margin-top:16px;border-top:1px solid rgba(255,255,255,0.12);padding-top:14px;position:relative;z-index:1;}}
 .profile-stat{{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.12);}}
 .profile-stat:last-child{{border-right:none;}}
 .profile-stat-val{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:16px;font-weight:800;color:#fff!important;}}
@@ -282,15 +391,8 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
 /* ── SIDEBAR INNER ── */
 .sidebar-inner{{padding:12px 14px;}}
-.sb-section-title{{
-  font-size:10px;font-weight:700;color:{TEXT3}!important;
-  text-transform:uppercase;letter-spacing:1.2px;
-  margin:14px 0 7px;padding:0 2px;
-}}
-.contact-item{{
-  display:flex;align-items:flex-start;gap:10px;
-  padding:8px 2px;border-bottom:1px solid {DIVIDER};
-}}
+.sb-section-title{{font-size:10px;font-weight:700;color:{TEXT3}!important;text-transform:uppercase;letter-spacing:1.2px;margin:14px 0 7px;padding:0 2px;}}
+.contact-item{{display:flex;align-items:flex-start;gap:10px;padding:8px 2px;border-bottom:1px solid {DIVIDER};}}
 .contact-item:last-child{{border-bottom:none;}}
 .contact-icon{{font-size:14px;width:20px;text-align:center;flex-shrink:0;margin-top:1px;}}
 .contact-label{{font-size:9px;color:{TEXT3}!important;text-transform:uppercase;letter-spacing:.5px;}}
@@ -298,126 +400,50 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
 /* ── SIGN OUT ── */
 .signout-wrap{{padding:8px 14px 16px;}}
-.signout-wrap .stButton>button{{
-  background:rgba(239,68,68,0.08)!important;color:#ef4444!important;
-  border:1.5px solid rgba(239,68,68,0.25)!important;
-  height:40px!important;font-size:13px!important;font-weight:600!important;
-  box-shadow:none!important;border-radius:10px!important;
-}}
+.signout-wrap .stButton>button{{background:rgba(239,68,68,0.08)!important;color:#ef4444!important;border:1.5px solid rgba(239,68,68,0.25)!important;height:40px!important;font-size:13px!important;font-weight:600!important;box-shadow:none!important;border-radius:10px!important;}}
 .signout-wrap .stButton>button:hover{{background:rgba(239,68,68,0.18)!important;}}
 
 /* ── THEME BTN SIDEBAR ── */
-.theme-sb .stButton>button{{
-  background:{ACCENT_SOFT}!important;color:{ACCENT}!important;
-  border:1.5px solid {ACCENT_BORDER}!important;
-  height:38px!important;font-size:13px!important;font-weight:600!important;
-  box-shadow:none!important;border-radius:9px!important;
-}}
+.theme-sb .stButton>button{{background:{ACCENT_SOFT}!important;color:{ACCENT}!important;border:1.5px solid {ACCENT_BORDER}!important;height:38px!important;font-size:13px!important;font-weight:600!important;box-shadow:none!important;border-radius:9px!important;}}
 
 /* ── TOP HEADER ── */
-.top-header{{
-  background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};
-  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
-  height:60px;box-shadow:{GLOW};position:sticky;top:0;z-index:100;
-}}
-.top-logo{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:22px;font-weight:900;color:{TEXT1}!important;
-  display:flex;align-items:center;gap:10px;letter-spacing:-0.5px;
-}}
-.top-logo em{{
-  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;font-style:normal;
-}}
-.top-badge{{
-  font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;
-  background:{ACCENT_SOFT};color:{ACCENT}!important;
-  border:1px solid {ACCENT_BORDER};letter-spacing:.5px;text-transform:uppercase;
-}}
+.top-header{{background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;box-shadow:{GLOW};position:sticky;top:0;z-index:100;}}
+.top-logo{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:22px;font-weight:900;color:{TEXT1}!important;display:flex;align-items:center;gap:10px;letter-spacing:-0.5px;}}
+.top-logo em{{background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;}}
+.top-badge{{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:{ACCENT_SOFT};color:{ACCENT}!important;border:1px solid {ACCENT_BORDER};letter-spacing:.5px;text-transform:uppercase;}}
 .top-right{{display:flex;align-items:center;gap:12px;}}
-.top-avatar{{
-  width:34px;height:34px;border-radius:50%;
-  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:#fff!important;
-  box-shadow:0 2px 8px rgba(99,102,241,0.35);
-}}
+.top-avatar{{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,{ACCENT},{ACCENT2});display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff!important;box-shadow:0 2px 8px rgba(99,102,241,0.35);}}
 .top-username{{font-size:13px;font-weight:600;color:{TEXT1}!important;}}
-
-/* ── NAV TABS ── */
-.nav-tabs-outer{{
-  background:{NAV_BG};border-bottom:1px solid {DIVIDER};padding:6px 20px;
-}}
 
 /* ── PAGE ── */
 .page-wrap{{padding:26px 28px 40px;max-width:1120px;margin:0 auto;}}
-.page-title{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:24px;font-weight:900;color:{TEXT1}!important;
-  margin-bottom:5px;letter-spacing:-0.3px;
-}}
+.page-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:24px;font-weight:900;color:{TEXT1}!important;margin-bottom:5px;letter-spacing:-0.3px;}}
 .page-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:22px;line-height:1.6;}}
 
 /* ── SECTION HEADING ── */
-.section-heading{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:13px;font-weight:700;color:{ACCENT}!important;
-  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
-  display:flex;align-items:center;gap:6px;
-}}
+.section-heading{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:13px;font-weight:700;color:{ACCENT}!important;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;display:flex;align-items:center;gap:6px;}}
 
 /* ── CARDS ── */
-.card{{
-  background:{CARD_BG};border-radius:18px;
-  border:1px solid {CARD_BORDER};padding:22px;
-  box-shadow:{GLOW};margin-bottom:16px;
-  transition:all 0.3s;
-}}
+.card{{background:{CARD_BG};border-radius:18px;border:1px solid {CARD_BORDER};padding:22px;box-shadow:{GLOW};margin-bottom:16px;transition:all 0.3s;}}
 .card:hover{{box-shadow:0 8px 32px rgba(99,102,241,0.18);}}
-.card-title{{
-  font-size:10px;font-weight:700;color:{ACCENT}!important;
-  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
-  padding-bottom:10px;border-bottom:1px solid {DIVIDER};
-}}
+.card-title{{font-size:10px;font-weight:700;color:{ACCENT}!important;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid {DIVIDER};}}
 
 /* ── METRIC CARDS ── */
-.metric-card{{
-  background:{METRIC_BG};border:1px solid {CARD_BORDER};
-  border-radius:14px;padding:16px 14px;
-  box-shadow:{GLOW};transition:all 0.3s;
-}}
+.metric-card{{background:{METRIC_BG};border:1px solid {CARD_BORDER};border-radius:14px;padding:16px 14px;box-shadow:{GLOW};transition:all 0.3s;}}
 .metric-label{{font-size:10px;color:{TEXT3}!important;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px;}}
 .metric-value{{font-size:20px;font-weight:800;color:{TEXT1}!important;font-family:'Plus Jakarta Sans',sans-serif!important;}}
 .metric-sub{{font-size:11px;color:#10b981!important;font-weight:600;margin-top:4px;}}
 
 /* ── RESULT HERO ── */
-.result-hero{{
-  background:{HERO_BG};border-radius:22px;
-  padding:38px 32px;text-align:center;margin-bottom:22px;
-  box-shadow:0 16px 48px rgba(99,102,241,0.35),0 4px 16px rgba(0,0,0,0.15);
-  position:relative;overflow:hidden;
-}}
-.result-hero::before{{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:180px;height:180px;border-radius:50%;
-  background:rgba(255,255,255,0.06);
-}}
-.result-hero::after{{
-  content:'';position:absolute;bottom:-30px;left:-30px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(255,255,255,0.04);
-}}
+.result-hero{{background:{HERO_BG};border-radius:22px;padding:38px 32px;text-align:center;margin-bottom:22px;box-shadow:0 16px 48px rgba(99,102,241,0.35),0 4px 16px rgba(0,0,0,0.15);position:relative;overflow:hidden;}}
+.result-hero::before{{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.06);}}
+.result-hero::after{{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);}}
 .result-hero-label{{font-size:11px;color:rgba(255,255,255,0.7)!important;letter-spacing:2px;text-transform:uppercase;position:relative;z-index:1;}}
 .result-hero-amount{{font-size:58px;font-weight:900;color:#fff!important;margin:10px 0;font-family:'Plus Jakarta Sans',sans-serif!important;position:relative;z-index:1;text-shadow:0 2px 20px rgba(0,0,0,0.2);}}
 .result-hero-sub{{font-size:13px;color:rgba(255,255,255,0.65)!important;position:relative;z-index:1;}}
 
 /* ── INSIGHT CARDS ── */
-.insight-card{{
-  background:{CARD_BG};border-radius:14px;border:1px solid {CARD_BORDER};
-  padding:16px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;
-  transition:all 0.2s;
-}}
+.insight-card{{background:{CARD_BG};border-radius:14px;border:1px solid {CARD_BORDER};padding:16px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;transition:all 0.2s;}}
 .insight-card:hover{{border-color:{ACCENT_BORDER};box-shadow:0 4px 16px rgba(99,102,241,0.12);}}
 .insight-icon{{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}}
 .insight-icon-blue  {{background:{'rgba(99,102,241,0.15)' if dm else '#eef2ff'};}}
@@ -459,47 +485,14 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .lb-salary{{font-size:16px;font-weight:800;color:{ACCENT}!important;font-family:'Plus Jakarta Sans',sans-serif!important;}}
 
 /* ── WHATSAPP CARD ── */
-.wa-card{{
-  background:{WA_BG};border:1.5px solid {WA_BORDER};
-  border-radius:16px;padding:20px;margin-top:18px;
-}}
+.wa-card{{background:{WA_BG};border:1.5px solid {WA_BORDER};border-radius:16px;padding:20px;margin-top:18px;}}
 .wa-title{{font-size:14px;font-weight:700;color:{WA_COLOR}!important;margin-bottom:8px;display:flex;align-items:center;gap:8px;}}
 .wa-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.6;margin-bottom:14px;}}
-.wa-btn a{{
-  display:inline-flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,#25D366,#128C7E);
-  color:#fff!important;font-weight:700;font-size:14px;
-  padding:12px 24px;border-radius:12px;text-decoration:none;
-  box-shadow:0 4px 16px rgba(37,211,102,0.3);transition:all 0.2s;
-}}
+.wa-btn a{{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff!important;font-weight:700;font-size:14px;padding:12px 24px;border-radius:12px;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,0.3);transition:all 0.2s;}}
 .wa-btn a:hover{{box-shadow:0 6px 24px rgba(37,211,102,0.45);transform:translateY(-1px);}}
 
-/* ── HOME CARDS ── */
-.feature-card{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};
-  padding:26px 20px;border-radius:20px;text-align:center;
-  transition:all 0.3s;box-shadow:{GLOW};
-}}
-.feature-card:hover{{transform:translateY(-5px);box-shadow:0 16px 40px rgba(99,102,241,0.18);border-color:{ACCENT_BORDER};}}
-.feature-icon{{font-size:36px;margin-bottom:12px;}}
-.feature-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:15px;font-weight:800;color:{TEXT1}!important;margin-bottom:6px;}}
-.feature-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.5;}}
-
-/* ── STAT STRIP ── */
-.stat-strip{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};border-radius:16px;
-  display:flex;padding:20px 0;margin-bottom:24px;box-shadow:{GLOW};
-}}
-.stat-strip-item{{flex:1;text-align:center;border-right:1px solid {DIVIDER};}}
-.stat-strip-item:last-child{{border-right:none;}}
-.stat-strip-val{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:24px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}}
-.stat-strip-lbl{{font-size:11px;color:{TEXT2}!important;margin-top:3px;font-weight:500;}}
-
 /* ── LOGIN ── */
-.login-card{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};
-  padding:32px;border-radius:22px;box-shadow:{GLOW};
-}}
+.login-card{{background:{CARD_BG};border:1px solid {CARD_BORDER};padding:32px;border-radius:22px;box-shadow:{GLOW};}}
 .login-heading{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:{TEXT1}!important;margin-bottom:6px;}}
 .login-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:24px;}}
 
@@ -513,10 +506,7 @@ h1,h2,h3{{font-family:'Plus Jakarta Sans',sans-serif!important;color:{TEXT1}!imp
 p,li{{color:{TEXT2}!important;}}
 
 /* ── INPUTS ── */
-.stTextInput input,.stNumberInput input{{
-  background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;
-  border-radius:11px!important;color:#38BDF8!important;font-size:14px!important;padding:10px 14px!important;
-}}
+.stTextInput input,.stNumberInput input{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;color:#38BDF8!important;font-size:14px!important;padding:10px 14px!important;}}
 .stTextInput input:focus,.stNumberInput input:focus{{border-color:{ACCENT}!important;box-shadow:0 0 0 3px {ACCENT_SOFT}!important;}}
 .stTextInput label,.stNumberInput label,.stSelectbox label{{color:{TEXT2}!important;font-size:12px!important;font-weight:600!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}}
 .stTextInput textarea{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;color:{TEXT1}!important;font-size:14px!important;}}
@@ -538,6 +528,29 @@ p,li{{color:{TEXT2}!important;}}
 
 /* ── SLIDER ── */
 .stSlider>div>div>div>div{{background:linear-gradient(90deg,{ACCENT},{ACCENT2})!important;}}
+
+/* ── DASHBOARD HOME WELCOME ── */
+.dash-welcome{{
+  background:{HERO_BG};border-radius:20px;
+  padding:36px 32px;margin-bottom:24px;
+  position:relative;overflow:hidden;
+  box-shadow:0 12px 40px rgba(99,102,241,0.3);
+}}
+.dash-welcome::before{{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.06);}}
+.dash-welcome::after{{content:'';position:absolute;bottom:-30px;left:180px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.04);}}
+.dash-welcome-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:#fff!important;margin-bottom:8px;position:relative;z-index:1;}}
+.dash-welcome-sub{{font-size:14px;color:rgba(255,255,255,0.75)!important;line-height:1.7;position:relative;z-index:1;max-width:560px;}}
+.dash-quick-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}}
+.dash-quick-card{{
+  background:{CARD_BG};border:1px solid {CARD_BORDER};
+  border-radius:16px;padding:20px;cursor:pointer;
+  transition:all 0.3s;box-shadow:{GLOW};
+  text-align:center;
+}}
+.dash-quick-card:hover{{transform:translateY(-4px);box-shadow:0 12px 32px rgba(99,102,241,0.2);border-color:{ACCENT_BORDER};}}
+.dash-quick-icon{{font-size:32px;margin-bottom:10px;}}
+.dash-quick-title{{font-size:14px;font-weight:700;color:{TEXT1}!important;margin-bottom:4px;}}
+.dash-quick-desc{{font-size:12px;color:{TEXT2}!important;line-height:1.5;}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -579,7 +592,6 @@ def build_whatsapp_message(inp, salary):
     cs         = 0 if exp<=2 else (1 if exp<=5 else (2 if exp<=10 else (3 if exp<=15 else 4)))
     curr_role  = roadmap[cs]
     next_role  = roadmap[min(cs+1, len(roadmap)-1)]
-
     msg = f"""💼 *SalaryIQ — Career Insights Report*
 ━━━━━━━━━━━━━━━━━━━
 👤 *Profile Summary*
@@ -615,6 +627,124 @@ def build_whatsapp_message(inp, salary):
 ━━━━━━━━━━━━━━━━━━━
 _Powered by SalaryIQ AI Platform_ 🤖"""
     return msg
+
+# =========================
+# LANDING PAGE (Pre-Login)
+# =========================
+def show_landing_page():
+    """Full-screen landing page shown before login."""
+    # Navbar
+    st.markdown(f"""
+    <div class="landing-navbar">
+      <div class="landing-logo">💼 Salary<em>IQ</em> <span class="landing-badge">PRO</span></div>
+      <div style="font-size:13px;color:{TEXT2};font-weight:500;">AI-Powered Career Intelligence Platform</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Hero
+    st.markdown(f"""
+    <div class="landing-hero">
+      <div style="position:relative;z-index:1;">
+        <div class="landing-hero-label">💼 AI-Powered Career Intelligence</div>
+        <div class="landing-hero-title">
+          Discover Your True<br><span>Market Worth</span>
+        </div>
+        <div class="landing-hero-sub">
+          Predict your salary using Machine Learning trained on 250,000+ real records.
+          Get instant insights, career roadmaps, and growth tips — tailored to you.
+        </div>
+        <div class="landing-badges">
+          <span class="landing-badge-pill">✅ 95% Accuracy</span>
+          <span class="landing-badge-pill">⚡ Instant Results</span>
+          <span class="landing-badge-pill">🗺️ Career Roadmap</span>
+          <span class="landing-badge-pill">📱 WhatsApp Export</span>
+          <span class="landing-badge-pill">🏆 Industry Benchmarks</span>
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Stats strip
+    st.markdown(f"""
+    <div class="stat-strip">
+      <div class="stat-strip-item"><div class="stat-strip-val">50K+</div><div class="stat-strip-lbl">Predictions Made</div></div>
+      <div class="stat-strip-item"><div class="stat-strip-val">95%</div><div class="stat-strip-lbl">Model Accuracy</div></div>
+      <div class="stat-strip-item"><div class="stat-strip-val">120+</div><div class="stat-strip-lbl">Job Roles</div></div>
+      <div class="stat-strip-item"><div class="stat-strip-val">10K+</div><div class="stat-strip-lbl">Active Users</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Features section
+    st.markdown('<div class="landing-section">', unsafe_allow_html=True)
+    st.markdown(f'<div class="landing-section-title">Everything You Need</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="landing-section-sub">A complete career intelligence platform built for Indian tech professionals</div>', unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Accurate Predictions</div>
+        <div class="feature-desc">KNN model trained on 250K+ real salary records across industries and roles.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant Results</div>
+        <div class="feature-desc">Get your salary prediction in under 1 second — no waiting, no forms.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Full Analytics</div>
+        <div class="feature-desc">Dashboard, roadmap, benchmarks, what-if simulator, and industry trends.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">WhatsApp Export</div>
+        <div class="feature-desc">Send your complete career insights report directly to your WhatsApp.</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # How it works
+    st.markdown(f'<div class="landing-section-title">How It Works</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="landing-section-sub">Four simple steps to know your market value</div>', unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">1️⃣</div>
+        <div class="how-title">Create Account</div>
+        <div class="how-desc">Sign up free — takes less than 30 seconds.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">2️⃣</div>
+        <div class="how-title">Fill Your Profile</div>
+        <div class="how-desc">Enter experience, skills, education, and job details.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">3️⃣</div>
+        <div class="how-title">Get Prediction</div>
+        <div class="how-desc">Our KNN model calculates your exact market salary instantly.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">4️⃣</div>
+        <div class="how-title">Grow Your Career</div>
+        <div class="how-desc">Use insights, roadmap, and tips to reach the next level.</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # CTA
+    st.markdown(f"""
+    <div class="cta-section">
+      <div class="cta-title">Ready to Know Your Worth?</div>
+      <div class="cta-sub">Join 10,000+ professionals who've already discovered their market value.<br>Free to use. No credit card required.</div>
+      <div style="position:relative;z-index:1;font-size:13px;color:rgba(255,255,255,0.7);">
+        👈 Sign up or log in using the sidebar to get started
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)  # close landing-section
 
 # =========================
 # LOGIN PAGE
@@ -660,7 +790,7 @@ def show_signup():
     st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
-# SIDEBAR
+# SIDEBAR (logged-in)
 # =========================
 def show_sidebar():
     u     = st.session_state.username
@@ -798,62 +928,73 @@ def show_topbar():
     st.markdown(f'<div style="height:1px;background:{DIVIDER};"></div>', unsafe_allow_html=True)
 
 # =========================
-# HOME PAGE
+# DASHBOARD HOME (logged-in)
 # =========================
-def show_home():
+def show_dashboard_home():
+    """Compact welcome dashboard shown as Home tab after login."""
+    u = st.session_state.username
+    udata = get_user_data(u)
+    name = udata.get("name", u).split()[0]  # first name only
+    pred_done = st.session_state.last_prediction is not None
+    salary_fmt = f"₹{st.session_state.last_prediction:,}" if pred_done else "—"
+
     st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
 
-    # Hero section
+    # Welcome banner
     st.markdown(f"""
-    <div style="background:{HERO_BG};border-radius:24px;padding:48px 40px;margin-bottom:28px;
-                position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
-      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
-      <div style="position:absolute;bottom:-30px;left:200px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
-      <div style="position:relative;z-index:1;max-width:600px;">
-        <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;">💼 AI-Powered Career Intelligence</div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:38px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;">
-          Welcome to<br><em style="font-style:normal;opacity:0.9;">Salary Prediction App</em>
-        </div>
-        <div style="font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:24px;">
-          Predict your market salary using Machine Learning based on your experience,<br>education, certifications, skills, and industry — instantly.
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff!important;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;">✅ 95% Accuracy</span>
-          <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff!important;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;">⚡ Instant Results</span>
-          <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff!important;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;">📱 WhatsApp Insights</span>
-        </div>
+    <div class="dash-welcome">
+      <div class="dash-welcome-title">Welcome back, {name}! 👋</div>
+      <div class="dash-welcome-sub">
+        Your career intelligence dashboard is ready.
+        {"You have an active salary prediction — explore your insights below." if pred_done else "Start by running your first salary prediction to unlock all features."}
       </div>
-    </div>""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
-    # Stats strip
-    st.markdown(f"""
-    <div class="stat-strip">
-      <div class="stat-strip-item"><div class="stat-strip-val">50K+</div><div class="stat-strip-lbl">Predictions Made</div></div>
-      <div class="stat-strip-item"><div class="stat-strip-val">95%</div><div class="stat-strip-lbl">Model Accuracy</div></div>
-      <div class="stat-strip-item"><div class="stat-strip-val">120+</div><div class="stat-strip-lbl">Job Roles</div></div>
-      <div class="stat-strip-item"><div class="stat-strip-val">10K+</div><div class="stat-strip-lbl">Active Users</div></div>
-    </div>""", unsafe_allow_html=True)
+    # Quick stats row
+    m1, m2, m3, m4 = st.columns(4)
+    with m1:
+        st.markdown(f'<div class="metric-card"><div class="metric-label">Latest Prediction</div><div class="metric-value" style="font-size:18px;">{salary_fmt}</div><div class="metric-sub">{"Annual" if pred_done else "Run Predict →"}</div></div>', unsafe_allow_html=True)
+    with m2:
+        job = st.session_state.last_inputs.get("job_title","—") if st.session_state.last_inputs else "—"
+        st.markdown(f'<div class="metric-card"><div class="metric-label">Job Role</div><div class="metric-value" style="font-size:14px;">{job}</div></div>', unsafe_allow_html=True)
+    with m3:
+        exp = st.session_state.last_inputs.get("experience_years","—") if st.session_state.last_inputs else "—"
+        st.markdown(f'<div class="metric-card"><div class="metric-label">Experience</div><div class="metric-value">{exp} {"yrs" if exp != "—" else ""}</div></div>', unsafe_allow_html=True)
+    with m4:
+        st.markdown(f'<div class="metric-card"><div class="metric-label">Platform</div><div class="metric-value" style="font-size:14px;">SalaryIQ</div><div class="metric-sub">↑ PRO</div></div>', unsafe_allow_html=True)
 
-    # Feature cards
-    f1,f2,f3,f4 = st.columns(4)
-    cards = [("🎯","Accurate","KNN model trained on 250K+ real salary records across industries."),
-             ("⚡","Instant","Get your salary prediction in under 1 second — no waiting."),
-             ("📊","Full Analytics","Dashboard, roadmap, benchmarks and industry trend reports."),
-             ("📱","WhatsApp Send","Export your full career insights report directly to WhatsApp.")]
-    for col,(icon,title,desc) in zip([f1,f2,f3,f4],cards):
+    st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
+
+    # Quick navigation cards
+    st.markdown(f'<div style="font-size:13px;font-weight:700;color:{ACCENT};text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;">⚡ Quick Actions</div>', unsafe_allow_html=True)
+
+    qc1, qc2, qc3 = st.columns(3, gap="large")
+    quick_items = [
+        ("predict", "🔍", "Predict Salary", "Enter your details and get an instant AI-powered salary estimate."),
+        ("insights", "💡", "View Insights", "See tips, skill gaps, industry trends, and WhatsApp export."),
+        ("roadmap", "🗺️", "Career Roadmap", "Step-by-step path from your current role to your dream position."),
+    ]
+    for col, (tab, icon, title, desc) in zip([qc1, qc2, qc3], quick_items):
         with col:
-            st.markdown(f'<div class="feature-card"><div class="feature-icon">{icon}</div><div class="feature-title">{title}</div><div class="feature-desc">{desc}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="dash-quick-card"><div class="dash-quick-icon">{icon}</div><div class="dash-quick-title">{title}</div><div class="dash-quick-desc">{desc}</div></div>', unsafe_allow_html=True)
+            if st.button(f"Go to {title.split()[0]} →", key=f"quick_{tab}"):
+                st.session_state.active_tab = tab; st.rerun()
 
-    # How it works
-    st.markdown(f'<br><div class="section-heading">🔄 How It Works</div>', unsafe_allow_html=True)
-    h1,h2,h3,h4 = st.columns(4)
-    steps = [("1️⃣","Fill Profile","Enter your experience, skills, education, and job details"),
-             ("2️⃣","Run Prediction","Our KNN model instantly calculates your market salary"),
-             ("3️⃣","Get Insights","See career roadmap, benchmarks, and growth tips"),
-             ("4️⃣","Share via WhatsApp","Send your full report to yourself on WhatsApp")]
-    for col,(num,title,desc) in zip([h1,h2,h3,h4],steps):
+    st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
+
+    # Second row
+    qc4, qc5, qc6 = st.columns(3, gap="large")
+    quick_items2 = [
+        ("compare", "⚖️", "Compare Yourself", "See where you stand vs the market — percentile and salary gap."),
+        ("dashboard", "📊", "Dashboard", "Platform stats, salary growth trends, and analytics charts."),
+        ("leaderboard", "🏆", "Leaderboard", "See top earners on the platform and where you rank."),
+    ]
+    for col, (tab, icon, title, desc) in zip([qc4, qc5, qc6], quick_items2):
         with col:
-            st.markdown(f'<div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;margin-bottom:10px;">{num}</div><div style="font-size:14px;font-weight:700;color:{TEXT1};margin-bottom:6px;">{title}</div><div style="font-size:12px;color:{TEXT2};line-height:1.5;">{desc}</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="dash-quick-card"><div class="dash-quick-icon">{icon}</div><div class="dash-quick-title">{title}</div><div class="dash-quick-desc">{desc}</div></div>', unsafe_allow_html=True)
+            if st.button(f"Go to {title.split()[0]} →", key=f"quick2_{tab}"):
+                st.session_state.active_tab = tab; st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -939,7 +1080,8 @@ def show_predict(model, scaler, columns):
 
         st.markdown(f'<div style="background:{SUCCESS_BG};border:1px solid {SUCCESS_B};border-radius:12px;padding:14px 18px;margin-top:12px;"><span style="font-size:14px;color:#10b981;font-weight:700;">✅ Prediction saved!</span><span style="font-size:13px;color:{TEXT2};"> Go to 💡 Insights to get tips and send to WhatsApp.</span></div>', unsafe_allow_html=True)
         st.balloons()
-     
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # INSIGHTS PAGE (with WhatsApp)
@@ -956,7 +1098,6 @@ def show_insights():
     cert=inp["certifications"]; edu=inp["education_level"]; ind=inp["industry"]
     icon_map={"blue":"insight-icon-blue","green":"insight-icon-green","amber":"insight-icon-amber","rose":"insight-icon-rose"}
 
-    # ── Boost Tips ──
     st.markdown(f'<div class="card"><div class="card-title">🚀 How to Boost Your Salary</div>', unsafe_allow_html=True)
     for icon,title,desc,color in salary_boost_tips(job,exp,sc,cert,edu):
         st.markdown(f'<div class="insight-card"><div class="insight-icon {icon_map[color]}">{icon}</div><div><div class="insight-title">{title}</div><div class="insight-desc">{desc}</div></div></div>', unsafe_allow_html=True)
@@ -975,7 +1116,6 @@ def show_insights():
         trend = INDUSTRY_TRENDS.get(ind,INDUSTRY_TRENDS["Other"])
         st.markdown(f'<div class="card"><div class="card-title">📈 Industry Trends — {ind}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;"><div class="metric-card"><div class="metric-label">Growth</div><div class="metric-value">{trend["growth"]}</div><div class="metric-sub">↑ YoY</div></div><div class="metric-card"><div class="metric-label">Demand</div><div class="metric-value" style="font-size:15px;">{trend["demand"]}</div></div><div class="metric-card"><div class="metric-label">Top Pay</div><div class="metric-value" style="font-size:15px;">{trend["top_pay"]}</div></div><div class="metric-card"><div class="metric-label">Outlook</div><div class="metric-value" style="font-size:15px;">{trend["outlook"]}</div></div></div><div style="background:{ACCENT_SOFT};border-radius:12px;padding:12px 14px;border:1px solid {ACCENT_BORDER};"><div style="font-size:12px;color:{ACCENT};font-weight:700;margin-bottom:4px;">💡 Key Insight</div><div style="font-size:12px;color:{TEXT2};line-height:1.6;">Growing <strong style="color:{TEXT1};">{trend["growth"]}</strong>/yr. Top talent earns <strong style="color:{TEXT1};">{trend["top_pay"]}</strong>. Strong time to upskill and negotiate.</div></div></div>', unsafe_allow_html=True)
 
-    # ── What-If Simulator ──
     st.markdown(f'<div class="card"><div class="card-title">⚡ What-If Salary Simulator</div><p style="font-size:13px;color:{TEXT2};margin-bottom:16px;">Drag sliders to see the salary impact of each improvement.</p>', unsafe_allow_html=True)
     s1,s2,s3 = st.columns(3)
     with s1:
@@ -989,12 +1129,11 @@ def show_insights():
         st.markdown(f'<div class="metric-card"><div class="metric-label">+{xc} certs</div><div class="metric-value">₹{sc_:,}</div><div class="metric-sub trend-up">+₹{sc_-salary:,}</div></div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # ── WhatsApp Feature ──
     st.markdown(f"""
     <div class="wa-card">
       <div class="wa-title">📱 Send Insights to WhatsApp</div>
       <div class="wa-desc">
-        Get your complete career insights report — salary prediction, growth tips, skill roadmap, and industry trends — delivered directly to your WhatsApp. Enter your number below and click the button.
+        Get your complete career insights report — salary prediction, growth tips, skill roadmap, and industry trends — delivered directly to your WhatsApp.
       </div>
     </div>""", unsafe_allow_html=True)
 
@@ -1024,8 +1163,7 @@ def show_insights():
         <div style="background:{SUCCESS_BG};border:1px solid {SUCCESS_B};border-radius:14px;padding:18px 20px;margin-top:12px;">
           <div style="font-size:14px;font-weight:700;color:#10b981;margin-bottom:8px;">✅ WhatsApp link ready!</div>
           <div style="font-size:13px;color:{TEXT2};margin-bottom:14px;line-height:1.6;">
-            Click the button below to open WhatsApp with your pre-filled career insights report. 
-            It will open WhatsApp Web or the app on your device.
+            Click the button below to open WhatsApp with your pre-filled career insights report.
           </div>
           <div class="wa-btn"><a href="{wa_url}" target="_blank">📱 Open WhatsApp & Send Report</a></div>
           <div style="margin-top:12px;font-size:11px;color:{TEXT3};">ℹ️ Opens WhatsApp with your full report pre-filled. Just press Send!</div>
@@ -1147,24 +1285,46 @@ def show_leaderboard():
 # ENTRY POINT
 # =========================
 if not st.session_state.logged_in:
-    # auth theme toggle
+    # Theme toggle in sidebar for auth pages
     st.sidebar.markdown('<div class="theme-sb" style="padding:16px 14px 8px;">', unsafe_allow_html=True)
     if st.sidebar.button(TOGGLE_LBL, key="auth_theme"):
         st.session_state.dark_mode = not st.session_state.dark_mode; st.rerun()
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
-
-    # Top navbar for auth
-    st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
+    st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:4px 14px;"></div>', unsafe_allow_html=True)
 
     menu = st.sidebar.radio("", ["🔐 Login","📝 Sign Up"], label_visibility="collapsed")
-    if "Login" in menu: show_login()
-    else:               show_signup()
+
+    # Show full landing page in main area
+    show_landing_page()
+
+    # Auth forms below landing page
+    st.markdown(f"""
+    <div style="max-width:480px;margin:0 auto 40px;padding:0 16px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:{TEXT1};">
+          {"🔐 Sign in to your account" if "Login" in menu else "📝 Create your free account"}
+        </div>
+        <div style="font-size:13px;color:{TEXT2};margin-top:4px;">
+          {"Or use the sidebar on the left" if False else ""}
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Center the auth form
+    _, auth_col, _ = st.columns([1, 2, 1])
+    with auth_col:
+        if "Login" in menu:
+            show_login()
+        else:
+            show_signup()
 
 else:
+    # Logged-in app
     try:
         model, scaler, columns = load_model()
         model_loaded = True
-    except:
+    except Exception:
         model_loaded = False
 
     if "wa_ready" not in st.session_state:
@@ -1174,10 +1334,13 @@ else:
     show_topbar()
 
     tab = st.session_state.active_tab
-    if   tab == "home":        show_home()
+    if   tab == "home":
+        show_dashboard_home()
     elif tab == "predict":
-        if model_loaded: show_predict(model, scaler, columns)
-        else: st.error("⚠️ Model files not found. Please add knn_model.pkl, scaler.pkl, columns.pkl.")
+        if model_loaded:
+            show_predict(model, scaler, columns)
+        else:
+            st.error("⚠️ Model files not found. Please add knn_model.pkl, scaler.pkl, columns.pkl.")
     elif tab == "insights":    show_insights()
     elif tab == "roadmap":     show_roadmap()
     elif tab == "dashboard":   show_dashboard()
