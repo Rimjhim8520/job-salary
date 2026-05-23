@@ -101,7 +101,7 @@ INDUSTRY_TRENDS = {
 # SESSION STATE
 # =========================
 defaults = {
-    "logged_in": False, "username": "", "active_tab": "home",
+    "logged_in": False, "username": "", "active_tab": "predict",
     "last_prediction": None, "last_inputs": None,
     "dark_mode": True, "profile_section": "info", "edit_mode": False,
 }
@@ -529,28 +529,7 @@ p,li{{color:{TEXT2}!important;}}
 /* ── SLIDER ── */
 .stSlider>div>div>div>div{{background:linear-gradient(90deg,{ACCENT},{ACCENT2})!important;}}
 
-/* ── DASHBOARD HOME WELCOME ── */
-.dash-welcome{{
-  background:{HERO_BG};border-radius:20px;
-  padding:36px 32px;margin-bottom:24px;
-  position:relative;overflow:hidden;
-  box-shadow:0 12px 40px rgba(99,102,241,0.3);
-}}
-.dash-welcome::before{{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.06);}}
-.dash-welcome::after{{content:'';position:absolute;bottom:-30px;left:180px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.04);}}
-.dash-welcome-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:#fff!important;margin-bottom:8px;position:relative;z-index:1;}}
-.dash-welcome-sub{{font-size:14px;color:rgba(255,255,255,0.75)!important;line-height:1.7;position:relative;z-index:1;max-width:560px;}}
-.dash-quick-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}}
-.dash-quick-card{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};
-  border-radius:16px;padding:20px;cursor:pointer;
-  transition:all 0.3s;box-shadow:{GLOW};
-  text-align:center;
-}}
-.dash-quick-card:hover{{transform:translateY(-4px);box-shadow:0 12px 32px rgba(99,102,241,0.2);border-color:{ACCENT_BORDER};}}
-.dash-quick-icon{{font-size:32px;margin-bottom:10px;}}
-.dash-quick-title{{font-size:14px;font-weight:700;color:{TEXT1}!important;margin-bottom:4px;}}
-.dash-quick-desc{{font-size:12px;color:{TEXT2}!important;line-height:1.5;}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -762,7 +741,7 @@ def show_login():
         if udata and udata.get("password") == p:
             st.session_state.logged_in = True
             st.session_state.username  = u
-            st.session_state.active_tab = "home"
+            st.session_state.active_tab = "predict"
             st.success(f"Welcome {udata.get('name', u)} 🎉"); st.rerun()
         else:
             st.error("Invalid username or password")
@@ -906,8 +885,8 @@ def show_topbar():
       </div>
     </div>""", unsafe_allow_html=True)
 
-    tabs   = ["home","predict","insights","roadmap","dashboard","compare","leaderboard"]
-    labels = ["🏠 Home","🔍 Predict","💡 Insights","🗺️ Roadmap","📊 Dashboard","⚖️ Compare","🏆 Leaderboard"]
+    tabs   = ["predict","insights","roadmap","dashboard","compare","leaderboard"]
+    labels = ["🔍 Predict","💡 Insights","🗺️ Roadmap","📊 Dashboard","⚖️ Compare","🏆 Leaderboard"]
     active = st.session_state.active_tab
     cols   = st.columns(len(tabs))
     for i,(col,tab,label) in enumerate(zip(cols,tabs,labels)):
@@ -926,77 +905,6 @@ def show_topbar():
             if st.button(label, key=f"nav_{tab}"):
                 st.session_state.active_tab=tab; st.rerun()
     st.markdown(f'<div style="height:1px;background:{DIVIDER};"></div>', unsafe_allow_html=True)
-
-# =========================
-# DASHBOARD HOME (logged-in)
-# =========================
-def show_dashboard_home():
-    """Compact welcome dashboard shown as Home tab after login."""
-    u = st.session_state.username
-    udata = get_user_data(u)
-    name = udata.get("name", u).split()[0]  # first name only
-    pred_done = st.session_state.last_prediction is not None
-    salary_fmt = f"₹{st.session_state.last_prediction:,}" if pred_done else "—"
-
-    st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
-
-    # Welcome banner
-    st.markdown(f"""
-    <div class="dash-welcome">
-      <div class="dash-welcome-title">Welcome back, {name}! 👋</div>
-      <div class="dash-welcome-sub">
-        Your career intelligence dashboard is ready.
-        {"You have an active salary prediction — explore your insights below." if pred_done else "Start by running your first salary prediction to unlock all features."}
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Quick stats row
-    m1, m2, m3, m4 = st.columns(4)
-    with m1:
-        st.markdown(f'<div class="metric-card"><div class="metric-label">Latest Prediction</div><div class="metric-value" style="font-size:18px;">{salary_fmt}</div><div class="metric-sub">{"Annual" if pred_done else "Run Predict →"}</div></div>', unsafe_allow_html=True)
-    with m2:
-        job = st.session_state.last_inputs.get("job_title","—") if st.session_state.last_inputs else "—"
-        st.markdown(f'<div class="metric-card"><div class="metric-label">Job Role</div><div class="metric-value" style="font-size:14px;">{job}</div></div>', unsafe_allow_html=True)
-    with m3:
-        exp = st.session_state.last_inputs.get("experience_years","—") if st.session_state.last_inputs else "—"
-        st.markdown(f'<div class="metric-card"><div class="metric-label">Experience</div><div class="metric-value">{exp} {"yrs" if exp != "—" else ""}</div></div>', unsafe_allow_html=True)
-    with m4:
-        st.markdown(f'<div class="metric-card"><div class="metric-label">Platform</div><div class="metric-value" style="font-size:14px;">SalaryIQ</div><div class="metric-sub">↑ PRO</div></div>', unsafe_allow_html=True)
-
-    st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
-
-    # Quick navigation cards
-    st.markdown(f'<div style="font-size:13px;font-weight:700;color:{ACCENT};text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;">⚡ Quick Actions</div>', unsafe_allow_html=True)
-
-    qc1, qc2, qc3 = st.columns(3, gap="large")
-    quick_items = [
-        ("predict", "🔍", "Predict Salary", "Enter your details and get an instant AI-powered salary estimate."),
-        ("insights", "💡", "View Insights", "See tips, skill gaps, industry trends, and WhatsApp export."),
-        ("roadmap", "🗺️", "Career Roadmap", "Step-by-step path from your current role to your dream position."),
-    ]
-    for col, (tab, icon, title, desc) in zip([qc1, qc2, qc3], quick_items):
-        with col:
-            st.markdown(f'<div class="dash-quick-card"><div class="dash-quick-icon">{icon}</div><div class="dash-quick-title">{title}</div><div class="dash-quick-desc">{desc}</div></div>', unsafe_allow_html=True)
-            if st.button(f"Go to {title.split()[0]} →", key=f"quick_{tab}"):
-                st.session_state.active_tab = tab; st.rerun()
-
-    st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
-
-    # Second row
-    qc4, qc5, qc6 = st.columns(3, gap="large")
-    quick_items2 = [
-        ("compare", "⚖️", "Compare Yourself", "See where you stand vs the market — percentile and salary gap."),
-        ("dashboard", "📊", "Dashboard", "Platform stats, salary growth trends, and analytics charts."),
-        ("leaderboard", "🏆", "Leaderboard", "See top earners on the platform and where you rank."),
-    ]
-    for col, (tab, icon, title, desc) in zip([qc4, qc5, qc6], quick_items2):
-        with col:
-            st.markdown(f'<div class="dash-quick-card"><div class="dash-quick-icon">{icon}</div><div class="dash-quick-title">{title}</div><div class="dash-quick-desc">{desc}</div></div>', unsafe_allow_html=True)
-            if st.button(f"Go to {title.split()[0]} →", key=f"quick2_{tab}"):
-                st.session_state.active_tab = tab; st.rerun()
-
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # PREDICT PAGE
@@ -1334,9 +1242,7 @@ else:
     show_topbar()
 
     tab = st.session_state.active_tab
-    if   tab == "home":
-        show_dashboard_home()
-    elif tab == "predict":
+    if   tab == "predict":
         if model_loaded:
             show_predict(model, scaler, columns)
         else:
