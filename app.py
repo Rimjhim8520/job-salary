@@ -1,4 +1,4 @@
-'''# =========================
+# =========================
 # IMPORT LIBRARIES
 # =========================
 import streamlit as st
@@ -1185,14 +1185,14 @@ else:
     elif tab == "leaderboard": show_leaderboard()
 
 # FOOTER
-st.markdown(f'<div class="footer">💼 SalaryIQ Pro &nbsp;·&nbsp; Made with ❤️ using Streamlit &nbsp;·&nbsp; AI-Powered Career Intelligence</div>', unsafe_allow_html=True)'''
+st.markdown(f'<div class="footer">💼 SalaryIQ Pro &nbsp;·&nbsp; Made with ❤️ using Streamlit &nbsp;·&nbsp; AI-Powered Career Intelligence</div>', unsafe_allow_html=True)
 
 
 
 
 
 
-# =========================
+'''# =========================
 # IMPORT LIBRARIES
 # =========================
 import streamlit as st
@@ -2485,4 +2485,4 @@ st.markdown(
     f'<div class="footer">💼 SalaryIQ Pro &nbsp;·&nbsp; Made with ❤️ using Streamlit'
     f' &nbsp;·&nbsp; AI-Powered Career Intelligence</div>',
     unsafe_allow_html=True
-)
+)'''
