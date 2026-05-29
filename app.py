@@ -200,28 +200,43 @@ else:
     WA_COLOR      = "#16a34a"
 
 # =========================
+# NAVBAR HEIGHT CONSTANTS
+# =========================
+NAVBAR_H        = 60   # desktop navbar height px
+NAVBAR_H_MOBILE = 54   # mobile navbar height px
+NAV_TAB_H       = 46   # tab row height px
+TOTAL_OFFSET    = NAVBAR_H + NAV_TAB_H + 12   # total top-padding for page-wrap (logged in)
+TOTAL_OFFSET_M  = NAVBAR_H_MOBILE + NAV_TAB_H + 8
+
+# =========================
 # INJECT CSS
 # =========================
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+
+/* ── Reset ── */
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
 html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 #MainMenu,footer{{visibility:hidden!important;display:none!important;}}
 
-/* ── Streamlit root containers ── */
+/* ── App background ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 .stApp>div{{background:transparent!important;}}
 
-/* Remove ALL default block padding so our custom layout takes over */
+/* ─────────────────────────────────────────────
+   STREAMLIT CONTAINER RESET
+   Strip ALL default padding from every wrapper
+   so our sticky navbar + page-wrap control layout
+───────────────────────────────────────────── */
 .block-container{{
   padding:0!important;
   max-width:100%!important;
+  margin:0!important;
 }}
-
-/* Streamlit v1.x main column wrapper — prevent it sitting under sticky nav */
 [data-testid="stAppViewContainer"]{{
   padding-top:0!important;
+  overflow:visible!important;
 }}
 [data-testid="stAppViewBlockContainer"],
 [data-testid="stMainBlockContainer"]{{
@@ -229,28 +244,93 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
   padding-left:0!important;
   padding-right:0!important;
   max-width:100%!important;
+  margin:0!important;
 }}
-
-/* The actual scrollable content area: push it down by navbar height (60px) + a little breathing room */
-section.main > div.block-container,
-div[data-testid="stVerticalBlock"] > div:first-child{{
+/* Streamlit's inner vertical block wrappers */
+section.main>div.block-container,
+div[data-testid="stVerticalBlock"],
+div[data-testid="stVerticalBlock"]>div{{
   padding-top:0!important;
+  margin-top:0!important;
+}}
+/* The main scrollable section */
+.stApp>div>section.main{{
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  padding:0!important;
 }}
 
-/* Ensure the sticky header sits above everything */
+/* ─────────────────────────────────────────────
+   STICKY NAVBAR
+   z-index:1000 so it sits above all content
+───────────────────────────────────────────── */
 .top-header{{
-  position:sticky!important;
-  top:0!important;
-  z-index:999!important;
+  background:{NAV_BG};
+  border-bottom:1px solid {CARD_BORDER};
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:{NAVBAR_H}px;
+  box-shadow:{GLOW};
+  position:sticky;
+  top:0;
+  z-index:1000;
+  width:100%;
+  box-sizing:border-box;
+  flex-shrink:0;
 }}
 
-/* Content wrapper offset — compensates for 60px sticky navbar */
+/* Tab row sits immediately under the header — also sticky */
+.nav-tab-row{{
+  position:sticky;
+  top:{NAVBAR_H}px;
+  z-index:999;
+  background:{NAV_BG};
+  border-bottom:1px solid {DIVIDER};
+  padding:6px 28px 0;
+  width:100%;
+  box-sizing:border-box;
+}}
+
+/* ─────────────────────────────────────────────
+   PAGE CONTENT WRAPPER
+   padding-top = navbar + tab-row + gap
+   This guarantees hero / content always starts
+   BELOW the sticky header — no overlap possible
+───────────────────────────────────────────── */
 .page-wrap{{
-  padding-top:20px!important;
+  padding:{TOTAL_OFFSET}px 28px 40px;
+  max-width:1120px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}}
+
+/* Public home page-wrap: only navbar height offset (no tab row) */
+.page-wrap-public{{
+  padding:{NAVBAR_H + 24}px 28px 40px;
+  max-width:1120px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}}
+
+/* ── Responsive: mobile ── */
+@media(max-width:768px){{
+  .top-header{{padding:0 14px;height:{NAVBAR_H_MOBILE}px;}}
+  .nav-tab-row{{top:{NAVBAR_H_MOBILE}px;padding:4px 10px 0;}}
+  .page-wrap{{padding:{TOTAL_OFFSET_M}px 14px 32px;}}
+  .page-wrap-public{{padding:{NAVBAR_H_MOBILE+16}px 14px 32px;}}
+  .result-hero-amount{{font-size:38px!important;}}
+  .stat-strip{{flex-wrap:wrap;}}
+  .stat-strip-item{{min-width:50%;border-bottom:1px solid {DIVIDER};}}
 }}
 
 div {{color:#38BDF8!important;font-size:16px;}}
 
+/* ── Sidebar ── */
 section[data-testid="stSidebar"]{{
   background:{SIDEBAR_BG}!important;
   border-right:1px solid {CARD_BORDER}!important;
@@ -260,6 +340,7 @@ section[data-testid="stSidebar"]{{
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
+/* ── Profile card ── */
 .profile-card{{
   background:{PROFILE_BG};padding:28px 20px 18px;text-align:center;
   position:relative;overflow:hidden;
@@ -330,13 +411,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   box-shadow:none!important;border-radius:9px!important;
 }}
 
-.top-header{{
-  background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};
-  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
-  height:60px;box-shadow:{GLOW};
-  position:sticky;top:0;z-index:999;
-  width:100%;box-sizing:border-box;
-}}
+/* ── Top navbar logo / user ── */
 .top-logo{{
   font-family:'Plus Jakarta Sans',sans-serif!important;
   font-size:22px;font-weight:900;color:{TEXT1}!important;
@@ -362,27 +437,13 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 }}
 .top-username{{font-size:13px;font-weight:600;color:{TEXT1}!important;}}
 
-.page-wrap{{
-  padding:24px 28px 40px;
-  max-width:1120px;
-  margin:0 auto;
-}}
-
-/* ── Responsive: mobile ── */
-@media(max-width:768px){{
-  .top-header{{padding:0 14px;height:54px;}}
-  .page-wrap{{padding:16px 14px 32px;}}
-  .result-hero-amount{{font-size:38px!important;}}
-  .stat-strip{{flex-wrap:wrap;}}
-  .stat-strip-item{{min-width:50%;border-bottom:1px solid {DIVIDER};}}
-}}
+/* ── Typography ── */
 .page-title{{
   font-family:'Plus Jakarta Sans',sans-serif!important;
   font-size:24px;font-weight:900;color:{TEXT1}!important;
   margin-bottom:5px;letter-spacing:-0.3px;
 }}
 .page-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:22px;line-height:1.6;}}
-
 .section-heading{{
   font-family:'Plus Jakarta Sans',sans-serif!important;
   font-size:13px;font-weight:700;color:{ACCENT}!important;
@@ -390,6 +451,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   display:flex;align-items:center;gap:6px;
 }}
 
+/* ── Cards ── */
 .card{{
   background:{CARD_BG};border-radius:18px;
   border:1px solid {CARD_BORDER};padding:22px;
@@ -412,6 +474,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .metric-value{{font-size:20px;font-weight:800;color:{TEXT1}!important;font-family:'Plus Jakarta Sans',sans-serif!important;}}
 .metric-sub{{font-size:11px;color:#10b981!important;font-weight:600;margin-top:4px;}}
 
+/* ── Result hero ── */
 .result-hero{{
   background:{HERO_BG};border-radius:22px;
   padding:38px 32px;text-align:center;margin-bottom:22px;
@@ -432,6 +495,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .result-hero-amount{{font-size:58px;font-weight:900;color:#fff!important;margin:10px 0;font-family:'Plus Jakarta Sans',sans-serif!important;position:relative;z-index:1;text-shadow:0 2px 20px rgba(0,0,0,0.2);}}
 .result-hero-sub{{font-size:13px;color:rgba(255,255,255,0.65)!important;position:relative;z-index:1;}}
 
+/* ── Insight cards ── */
 .insight-card{{
   background:{CARD_BG};border-radius:14px;border:1px solid {CARD_BORDER};
   padding:16px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;
@@ -446,6 +510,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .insight-title{{font-size:14px;font-weight:700;color:{TEXT1}!important;margin-bottom:4px;}}
 .insight-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.6;}}
 
+/* ── Roadmap ── */
 .roadmap-step{{display:flex;gap:14px;align-items:flex-start;padding:18px 0;border-bottom:1px solid {DIVIDER};}}
 .roadmap-step:last-child{{border-bottom:none;}}
 .step-dot{{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}}
@@ -459,11 +524,13 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .badge-done{{background:{'rgba(16,185,129,0.15)' if dm else '#dcfce7'};color:#10b981!important;}}
 .badge-future{{background:{'rgba(30,41,59,0.4)' if dm else '#f1f5f9'};color:{TEXT3}!important;}}
 
+/* ── Compare bars ── */
 .compare-bar-wrap{{margin-bottom:14px;}}
 .compare-bar-label{{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;}}
 .compare-bar-track{{height:8px;background:{BAR_TRACK};border-radius:99px;overflow:hidden;}}
 .compare-bar-fill{{height:100%;border-radius:99px;}}
 
+/* ── Leaderboard ── */
 .lb-row{{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;margin-bottom:8px;border:1px solid {CARD_BORDER};transition:all 0.2s;background:{CARD_BG};}}
 .lb-row:hover{{background:{ACCENT_SOFT};border-color:{ACCENT_BORDER};transform:translateX(3px);}}
 .lb-row.gold  {{background:{LB_GOLD};border-color:{'rgba(245,158,11,0.3)' if dm else '#fde68a'};}}
@@ -474,6 +541,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .lb-role{{font-size:11px;color:{TEXT2}!important;margin-top:2px;}}
 .lb-salary{{font-size:16px;font-weight:800;color:{ACCENT}!important;font-family:'Plus Jakarta Sans',sans-serif!important;}}
 
+/* ── WhatsApp card ── */
 .wa-card{{
   background:{WA_BG};border:1.5px solid {WA_BORDER};
   border-radius:16px;padding:20px;margin-top:18px;
@@ -489,6 +557,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 }}
 .wa-btn a:hover{{box-shadow:0 6px 24px rgba(37,211,102,0.45);transform:translateY(-1px);}}
 
+/* ── Feature cards (public home) ── */
 .feature-card{{
   background:{CARD_BG};border:1px solid {CARD_BORDER};
   padding:26px 20px;border-radius:20px;text-align:center;
@@ -499,6 +568,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .feature-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:15px;font-weight:800;color:{TEXT1}!important;margin-bottom:6px;}}
 .feature-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.5;}}
 
+/* ── Stat strip ── */
 .stat-strip{{
   background:{CARD_BG};border:1px solid {CARD_BORDER};border-radius:16px;
   display:flex;padding:20px 0;margin-bottom:24px;box-shadow:{GLOW};
@@ -508,6 +578,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .stat-strip-val{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:24px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}}
 .stat-strip-lbl{{font-size:11px;color:{TEXT2}!important;margin-top:3px;font-weight:500;}}
 
+/* ── Login / Signup ── */
 .login-card{{
   background:{CARD_BG};border:1px solid {CARD_BORDER};
   padding:32px;border-radius:22px;box-shadow:{GLOW};
@@ -515,13 +586,16 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 .login-heading{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:{TEXT1}!important;margin-bottom:6px;}}
 .login-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:24px;}}
 
+/* ── Footer ── */
 .footer{{text-align:center;color:{TEXT3}!important;padding:24px;font-size:12px;border-top:1px solid {DIVIDER};margin-top:20px;}}
 
+/* ── Misc ── */
 .trend-up{{color:#10b981!important;font-weight:700;font-size:12px;}}
 .pill{{display:inline-block;background:{ACCENT_SOFT};color:{ACCENT}!important;border-radius:99px;padding:5px 14px;font-size:12px;font-weight:600;margin:3px;border:1px solid {ACCENT_BORDER};}}
 h1,h2,h3{{font-family:'Plus Jakarta Sans',sans-serif!important;color:{TEXT1}!important;}}
 p,li{{color:{TEXT2}!important;}}
 
+/* ── Form inputs ── */
 .stTextInput input,.stNumberInput input{{
   background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;
   border-radius:11px!important;color:#38BDF8!important;font-size:14px!important;padding:10px 14px!important;
@@ -534,6 +608,7 @@ p,li{{color:{TEXT2}!important;}}
 [data-baseweb="menu"] li,[role="option"]{{background:{OPT_BG}!important;color:{OPT_C}!important;font-size:14px!important;}}
 [data-baseweb="menu"] li:hover,[role="option"]:hover,[role="option"][aria-selected="true"]{{background:{OPT_H}!important;color:{OPT_CH}!important;}}
 
+/* ── Buttons ── */
 .stButton>button{{
   background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;
   display:flex!important;justify-content:center!important;align-items:center!important;
@@ -546,7 +621,7 @@ p,li{{color:{TEXT2}!important;}}
 
 .stSlider>div>div>div>div{{background:linear-gradient(90deg,{ACCENT},{ACCENT2})!important;}}
 
-/* Public home Login button special style */
+/* Public home Login button */
 .login-cta .stButton>button{{
   background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;
   font-size:16px!important;height:54px!important;
@@ -636,8 +711,8 @@ _Powered by SalaryIQ AI Platform_ 🤖"""
 # =========================
 def show_login():
     st.markdown('<div class="login-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-heading">Welcome back 👋</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-sub">Sign in to your career intelligence dashboard</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-heading">Welcome back 👋</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-sub">Sign in to your career intelligence dashboard</div>', unsafe_allow_html=True)
     u = st.text_input("Username", placeholder="Enter your username", key="li_u")
     p = st.text_input("Password", type="password", placeholder="Enter your password", key="li_p")
     st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
@@ -647,7 +722,7 @@ def show_login():
         if udata and udata.get("password") == p:
             st.session_state.logged_in  = True
             st.session_state.username   = u
-            st.session_state.active_tab = "predict"   # ← lands on Predict tab
+            st.session_state.active_tab = "predict"
             st.session_state.show_public_home = False
             st.success(f"Welcome {udata.get('name', u)} 🎉")
             st.rerun()
@@ -657,8 +732,8 @@ def show_login():
 
 def show_signup():
     st.markdown('<div class="login-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-heading">Create account 🚀</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-sub">Join thousands discovering their true market value</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-heading">Create account 🚀</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-sub">Join thousands discovering their true market value</div>', unsafe_allow_html=True)
     name  = st.text_input("Full Name",        placeholder="John Doe",          key="su_name")
     email = st.text_input("Email",            placeholder="you@example.com",   key="su_email")
     u     = st.text_input("Username",         placeholder="Choose a username", key="su_u")
@@ -777,31 +852,42 @@ def show_sidebar():
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
-# TOP BAR + NAV TABS
-# ── "Home" tab removed from the logged-in nav ──
+# TOP BAR
+# Renders the sticky header div + the nav tab row.
+# The tab row is also sticky (top = NAVBAR_H) so both
+# header and tabs remain visible while scrolling.
 # =========================
 def show_topbar():
     u = st.session_state.username
     udata = get_user_data(u)
     name = udata.get("name", u)
     initials = get_initials(name)
+
+    # ── Sticky navbar ──
     st.markdown(f"""
     <div class="top-header">
       <div class="top-logo">💼 Salary<em>IQ</em> <span class="top-badge">PRO</span></div>
       <div class="top-right">
-        <div class="top-user" style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
           <div class="top-avatar">{initials}</div>
           <span class="top-username">{name}</span>
         </div>
       </div>
     </div>""", unsafe_allow_html=True)
 
-    # ── Home removed; starts directly at Predict ──
+    # ── Spacer so Streamlit's own flow doesn't push content up ──
+    # The header above is sticky/removed from flow visually, but
+    # st.markdown still occupies inline block height. We neutralise
+    # that with a negative-margin trick then re-add via page-wrap padding.
+    st.markdown(f'<div style="height:0;overflow:hidden;"></div>', unsafe_allow_html=True)
+
+    # ── Nav tab row (sticky, sits just below the header) ──
     tabs   = ["predict","insights","roadmap","dashboard","compare","leaderboard"]
     labels = ["🔍 Predict","💡 Insights","🗺️ Roadmap","📊 Dashboard","⚖️ Compare","🏆 Leaderboard"]
     active = st.session_state.active_tab
-    cols   = st.columns(len(tabs))
-    for i,(col,tab,label) in enumerate(zip(cols,tabs,labels)):
+
+    cols = st.columns(len(tabs))
+    for i, (col, tab, label) in enumerate(zip(cols, tabs, labels)):
         with col:
             is_act = tab == active
             st.markdown(f"""<style>
@@ -815,14 +901,21 @@ def show_topbar():
             }}
             </style>""", unsafe_allow_html=True)
             if st.button(label, key=f"nav_{tab}"):
-                st.session_state.active_tab=tab; st.rerun()
-    st.markdown(f'<div style="height:1px;background:{DIVIDER};"></div>', unsafe_allow_html=True)
+                st.session_state.active_tab = tab; st.rerun()
+
+    st.markdown(f'<div style="height:1px;background:{DIVIDER};margin-bottom:0;"></div>', unsafe_allow_html=True)
+
+    # ── Critical spacer: pushes ALL page content below both sticky layers ──
+    # page-wrap padding-top already handles this, but this div acts as a
+    # hard floor that prevents any content from sitting under the nav.
+    st.markdown(f'<div style="height:{NAVBAR_H + NAV_TAB_H}px;" id="nav-spacer"></div>', unsafe_allow_html=True)
 
 # =========================
-# HOME PAGE  (public landing only)
+# HOME PAGE (public landing)
 # =========================
 def show_home():
-    st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
+    # Use page-wrap-public (no tab-row offset, just navbar height)
+    st.markdown('<div class="page-wrap-public">', unsafe_allow_html=True)
 
     st.markdown(f"""
     <div style="background:{HERO_BG};border-radius:24px;padding:48px 40px;margin-bottom:28px;
@@ -872,7 +965,7 @@ def show_home():
         with col:
             st.markdown(f'<div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;margin-bottom:10px;">{num}</div><div style="font-size:14px;font-weight:700;color:{TEXT1};margin-bottom:6px;">{title}</div><div style="font-size:12px;color:{TEXT2};line-height:1.5;">{desc}</div></div>', unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)  # close page-wrap-public
 
 # =========================
 # PREDICT PAGE
@@ -1040,7 +1133,6 @@ def show_insights():
           <div style="font-size:14px;font-weight:700;color:#10b981;margin-bottom:8px;">✅ WhatsApp link ready!</div>
           <div style="font-size:13px;color:{TEXT2};margin-bottom:14px;line-height:1.6;">
             Click the button below to open WhatsApp with your pre-filled career insights report.
-            It will open WhatsApp Web or the app on your device.
           </div>
           <div class="wa-btn"><a href="{wa_url}" target="_blank">📱 Open WhatsApp & Send Report</a></div>
           <div style="margin-top:12px;font-size:11px;color:{TEXT3};">ℹ️ Opens WhatsApp with your full report pre-filled. Just press Send!</div>
@@ -1164,9 +1256,10 @@ def show_leaderboard():
 # ENTRY POINT
 # =========================
 
-# CASE 1: Public Home Page
+# ── CASE 1: Public Home Page ──
 if not st.session_state.logged_in and st.session_state.show_public_home:
 
+    # Sidebar (public)
     st.sidebar.markdown(f'<div style="padding:20px 14px 8px;"><div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:18px;font-weight:900;color:{TEXT1};margin-bottom:4px;">💼 SalaryIQ</div><div style="font-size:12px;color:{TEXT2};">AI-Powered Career Intelligence</div></div>', unsafe_allow_html=True)
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:8px 0 12px;"></div>', unsafe_allow_html=True)
     st.sidebar.markdown('<div class="theme-sb" style="padding:0 14px 8px;">', unsafe_allow_html=True)
@@ -1177,15 +1270,26 @@ if not st.session_state.logged_in and st.session_state.show_public_home:
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:8px 0 12px;"></div>', unsafe_allow_html=True)
     st.sidebar.markdown(f'<div style="padding:0 14px;font-size:12px;color:{TEXT2};line-height:1.8;">✅ 95% Accuracy<br>⚡ Instant Results<br>📱 WhatsApp Reports<br>🗺️ Career Roadmaps<br>📊 Industry Benchmarks</div>', unsafe_allow_html=True)
 
-    st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-top:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
+    # Public sticky header (no nav tabs — public page)
+    st.markdown(f"""
+    <div class="top-header">
+      <div class="top-logo">💼 Salary<em>IQ</em> <span class="top-badge">PRO</span></div>
+      <div class="top-right">
+        <span style="font-size:13px;color:{TEXT2};">Know Your Worth</span>
+      </div>
+    </div>
+    <div style="height:{NAVBAR_H}px;"></div>
+    """, unsafe_allow_html=True)
 
     show_home()
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"""
-    <div style="background:{CARD_BG};border:1px solid {CARD_BORDER};border-radius:20px;padding:32px;text-align:center;margin-bottom:24px;box-shadow:{GLOW};">
-      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:900;color:{TEXT1};margin-bottom:8px;">Ready to know your true salary? 🚀</div>
-      <div style="font-size:14px;color:{TEXT2};margin-bottom:24px;">Create a free account or log in to get your personalised salary prediction instantly.</div>
+    <div class="page-wrap-public" style="padding-top:0;">
+      <div style="background:{CARD_BG};border:1px solid {CARD_BORDER};border-radius:20px;padding:32px;text-align:center;margin-bottom:24px;box-shadow:{GLOW};">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:900;color:{TEXT1};margin-bottom:8px;">Ready to know your true salary? 🚀</div>
+        <div style="font-size:14px;color:{TEXT2};margin-bottom:24px;">Create a free account or log in to get your personalised salary prediction instantly.</div>
+      </div>
     </div>""", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1.5, 1, 1.5])
@@ -1196,7 +1300,7 @@ if not st.session_state.logged_in and st.session_state.show_public_home:
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
-# CASE 2: Auth Page
+# ── CASE 2: Auth Page ──
 elif not st.session_state.logged_in and not st.session_state.show_public_home:
 
     st.sidebar.markdown('<div class="theme-sb" style="padding:16px 14px 8px;">', unsafe_allow_html=True)
@@ -1205,14 +1309,19 @@ elif not st.session_state.logged_in and not st.session_state.show_public_home:
         st.rerun()
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:8px 14px;"></div>', unsafe_allow_html=True)
-
     st.sidebar.markdown('<div style="padding:4px 14px 8px;">', unsafe_allow_html=True)
     if st.sidebar.button("← Back to Home", key="back_home_btn"):
         st.session_state.show_public_home = True
         st.rerun()
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-top:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
+    # Auth sticky header
+    st.markdown(f"""
+    <div class="top-header">
+      <div class="top-logo">💼 Salary<em>IQ</em> <span class="top-badge">PRO</span></div>
+    </div>
+    <div style="height:{NAVBAR_H + 24}px;"></div>
+    """, unsafe_allow_html=True)
 
     menu = st.sidebar.radio("", ["🔐 Login", "📝 Sign Up"], label_visibility="collapsed")
     if "Login" in menu:
@@ -1220,7 +1329,7 @@ elif not st.session_state.logged_in and not st.session_state.show_public_home:
     else:
         show_signup()
 
-# CASE 3: Logged In — Full Dashboard (no Home tab)
+# ── CASE 3: Logged In — Full Dashboard ──
 else:
     try:
         model, scaler, columns = load_model()
@@ -1232,12 +1341,9 @@ else:
         st.session_state["wa_ready"] = False
 
     show_sidebar()
-    show_topbar()
-    st.markdown('<div style="height:8px;"></div>', unsafe_allow_html=True)
+    show_topbar()   # renders sticky header + tab row + spacer div
 
     tab = st.session_state.active_tab
-
-    # Guard: if somehow active_tab is still "home" from an old session, redirect to predict
     if tab == "home":
         st.session_state.active_tab = "predict"
         tab = "predict"
@@ -1252,5 +1358,5 @@ else:
     elif tab == "compare":     show_compare()
     elif tab == "leaderboard": show_leaderboard()
 
-# FOOTER
+# ── Footer ──
 st.markdown(f'<div class="footer">💼 SalaryIQ Pro &nbsp;·&nbsp; Made with ❤️ using Streamlit &nbsp;·&nbsp; AI-Powered Career Intelligence</div>', unsafe_allow_html=True)
