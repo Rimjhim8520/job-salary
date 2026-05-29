@@ -117,84 +117,84 @@ if "users" not in st.session_state:
 # =========================
 dm = st.session_state.dark_mode
 if dm:
-    BG            = "linear-gradient(135deg,#0a0f1e 0%,#0f172a 40%,#1a1040 100%)"
-    SIDEBAR_BG    = "#080d1a"
-    CARD_BG       = "rgba(15,23,42,0.95)"
-    CARD_BG2      = "rgba(20,30,55,0.9)"
-    CARD_BORDER   = "rgba(99,102,241,0.2)"
-    CARD_BORDER2  = "rgba(139,92,246,0.15)"
-    TEXT1         = "#f1f5f9"
-    TEXT2         = "#94a3b8"
-    TEXT3         = "#64748b"
-    ACCENT        = "#6366f1"
-    ACCENT2       = "#8b5cf6"
-    ACCENT3       = "#a78bfa"
-    ACCENT_SOFT   = "rgba(99,102,241,0.12)"
-    ACCENT_BORDER = "rgba(99,102,241,0.35)"
-    INPUT_BG      = "rgba(15,23,42,0.9)"
-    NAV_BG        = "rgba(8,13,26,0.98)"
-    DIVIDER       = "rgba(99,102,241,0.12)"
-    PROFILE_BG    = "linear-gradient(160deg,#312e81,#1e1b4b,#0f0a2e)"
-    HERO_BG       = "linear-gradient(135deg,#4338ca,#6d28d9,#7c3aed)"
-    BTN_INACTIVE  = "rgba(99,102,241,0.08)"
-    BTN_BORDER    = "rgba(99,102,241,0.25)"
-    OPT_BG        = "#0f172a"
-    OPT_H         = "rgba(99,102,241,0.2)"
-    OPT_C         = "#f1f5f9"
-    OPT_CH        = "#a78bfa"
-    METRIC_BG     = "rgba(10,15,30,0.9)"
-    BAR_TRACK     = "rgba(30,41,59,0.8)"
+    BG            = "linear-gradient(135deg,#020D12 0%,#041520 40%,#062030 100%)"
+    SIDEBAR_BG    = "#020D12"
+    CARD_BG       = "rgba(6,21,32,0.95)"
+    CARD_BG2      = "rgba(7,25,38,0.9)"
+    CARD_BORDER   = "rgba(34,211,238,0.2)"
+    CARD_BORDER2  = "rgba(14,165,201,0.15)"
+    TEXT1         = "#ECFEFF"
+    TEXT2         = "#67E8F9"
+    TEXT3         = "#0E7490"
+    ACCENT        = "#22D3EE"
+    ACCENT2       = "#0891B2"
+    ACCENT3       = "#67E8F9"
+    ACCENT_SOFT   = "rgba(34,211,238,0.1)"
+    ACCENT_BORDER = "rgba(34,211,238,0.35)"
+    INPUT_BG      = "rgba(6,21,32,0.9)"
+    NAV_BG        = "rgba(2,13,18,0.98)"
+    DIVIDER       = "rgba(34,211,238,0.12)"
+    PROFILE_BG    = "linear-gradient(160deg,#0C2B3A,#0E4563,#0C2B3A)"
+    HERO_BG       = "linear-gradient(135deg,#0C2B3A,#0E4563,#155E75)"
+    BTN_INACTIVE  = "rgba(34,211,238,0.08)"
+    BTN_BORDER    = "rgba(34,211,238,0.25)"
+    OPT_BG        = "#041520"
+    OPT_H         = "rgba(34,211,238,0.15)"
+    OPT_C         = "#ECFEFF"
+    OPT_CH        = "#22D3EE"
+    METRIC_BG     = "rgba(2,13,18,0.9)"
+    BAR_TRACK     = "rgba(7,25,38,0.8)"
     TOGGLE_LBL    = "☀️ Light Mode"
     SUCCESS_BG    = "rgba(16,185,129,0.1)"
     SUCCESS_B     = "rgba(16,185,129,0.3)"
     LB_GOLD       = "rgba(245,158,11,0.1)"
-    LB_SILVER     = "rgba(148,163,184,0.08)"
-    LB_BRONZE     = "rgba(180,83,9,0.1)"
-    STEP_NEXT_BG  = "rgba(15,23,42,0.6)"
-    STEP_NEXT_C   = "#475569"
-    STEP_NEXT_B   = "#1e293b"
-    GLOW          = "0 0 40px rgba(99,102,241,0.15)"
+    LB_SILVER     = "rgba(34,211,238,0.06)"
+    LB_BRONZE     = "rgba(14,116,144,0.1)"
+    STEP_NEXT_BG  = "rgba(6,21,32,0.6)"
+    STEP_NEXT_C   = "#0E7490"
+    STEP_NEXT_B   = "#0C2B3A"
+    GLOW          = "0 0 40px rgba(34,211,238,0.12)"
     WA_BG         = "rgba(37,211,102,0.12)"
     WA_BORDER     = "rgba(37,211,102,0.3)"
     WA_COLOR      = "#25D366"
 else:
-    BG            = "linear-gradient(135deg,#f0f4ff 0%,#faf5ff 50%,#f8f0ff 100%)"
-    SIDEBAR_BG    = "#fafbff"
-    CARD_BG       = "#ffffff"
-    CARD_BG2      = "#fafbff"
-    CARD_BORDER   = "#e0e7ff"
-    CARD_BORDER2  = "#ede9fe"
-    TEXT1         = "#1e1b4b"
-    TEXT2         = "#6b7280"
-    TEXT3         = "#9ca3af"
-    ACCENT        = "#4f46e5"
-    ACCENT2       = "#7c3aed"
-    ACCENT3       = "#6d28d9"
-    ACCENT_SOFT   = "#eef2ff"
-    ACCENT_BORDER = "#c7d2fe"
-    INPUT_BG      = "#f9fafb"
-    NAV_BG        = "#ffffff"
-    DIVIDER       = "#e0e7ff"
-    PROFILE_BG    = "linear-gradient(160deg,#4f46e5,#7c3aed,#6d28d9)"
-    HERO_BG       = "linear-gradient(135deg,#4338ca,#6d28d9,#7c3aed)"
-    BTN_INACTIVE  = "#f5f3ff"
-    BTN_BORDER    = "#c7d2fe"
-    OPT_BG        = "#ffffff"
-    OPT_H         = "#eef2ff"
-    OPT_C         = "#1e1b4b"
-    OPT_CH        = "#4f46e5"
-    METRIC_BG     = "#f8f9ff"
-    BAR_TRACK     = "#e5e7eb"
+    BG            = "linear-gradient(135deg,#ECFEFF 0%,#CFFAFE 50%,#E0F7FA 100%)"
+    SIDEBAR_BG    = "#F0FDFF"
+    CARD_BG       = "#FFFFFF"
+    CARD_BG2      = "#F0FDFF"
+    CARD_BORDER   = "#A5F3FC"
+    CARD_BORDER2  = "#CFFAFE"
+    TEXT1         = "#164E63"
+    TEXT2         = "#0E7490"
+    TEXT3         = "#67E8F9"
+    ACCENT        = "#0891B2"
+    ACCENT2       = "#0E7490"
+    ACCENT3       = "#155E75"
+    ACCENT_SOFT   = "#ECFEFF"
+    ACCENT_BORDER = "#A5F3FC"
+    INPUT_BG      = "#F0FDFF"
+    NAV_BG        = "#FFFFFF"
+    DIVIDER       = "#CFFAFE"
+    PROFILE_BG    = "linear-gradient(160deg,#164E63,#0E7490,#0891B2)"
+    HERO_BG       = "linear-gradient(135deg,#164E63,#155E75,#0E7490)"
+    BTN_INACTIVE  = "#ECFEFF"
+    BTN_BORDER    = "#A5F3FC"
+    OPT_BG        = "#FFFFFF"
+    OPT_H         = "#ECFEFF"
+    OPT_C         = "#164E63"
+    OPT_CH        = "#0891B2"
+    METRIC_BG     = "#F0FDFF"
+    BAR_TRACK     = "#CFFAFE"
     TOGGLE_LBL    = "🌙 Dark Mode"
-    SUCCESS_BG    = "#f0fdf4"
-    SUCCESS_B     = "#bbf7d0"
-    LB_GOLD       = "#fefce8"
-    LB_SILVER     = "#f8fafc"
-    LB_BRONZE     = "#fff7ed"
-    STEP_NEXT_BG  = "#f5f3ff"
-    STEP_NEXT_C   = "#9ca3af"
-    STEP_NEXT_B   = "#d1d5db"
-    GLOW          = "0 4px 24px rgba(79,70,229,0.1)"
+    SUCCESS_BG    = "#F0FDF4"
+    SUCCESS_B     = "#BBF7D0"
+    LB_GOLD       = "#FEFCE8"
+    LB_SILVER     = "#F0FDFF"
+    LB_BRONZE     = "#ECFEFF"
+    STEP_NEXT_BG  = "#ECFEFF"
+    STEP_NEXT_C   = "#67E8F9"
+    STEP_NEXT_B   = "#A5F3FC"
+    GLOW          = "0 4px 24px rgba(8,145,178,0.1)"
     WA_BG         = "rgba(37,211,102,0.08)"
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
@@ -1128,10 +1128,32 @@ def show_compare():
             st.markdown(f'<div class="compare-bar-wrap" style="{yb}"><div class="compare-bar-label"><span style="font-size:13px;font-weight:{"700" if iy else "500"};color:{ACCENT if iy else TEXT1};">{label}</span><span style="font-size:13px;font-weight:700;color:{ACCENT if iy else TEXT1};">₹{val:,}</span></div><div class="compare-bar-track"><div class="compare-bar-fill" style="width:{pct}%;background:{color};"></div></div></div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
     with c2:
-        pr=min(95,max(25,int(30+(salary/top5)*65))); gap=max(0,top10-salary)
-        st.markdown(f'<div class="card" style="text-align:center;margin-bottom:14px;"><div class="card-title">🎯 Your Market Position</div><div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:\'Plus Jakarta Sans\',sans-serif;">{pr}th</div><div style="font-size:13px;color:{TEXT2};margin-top:4px;">percentile in your field</div><div style="font-size:13px;color:{TEXT2};margin-top:12px;line-height:1.6;">You earn more than <strong style="color:{TEXT1};">{pr}%</strong> of similar professionals.{"" if pr>=90 else " Upskill to break into the top 10%!"}</div></div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="card"><div class="card-title">💰 Gap to Top 10%</div><div style="font-size:22px;font-weight:800;color:{ACCENT};font-family:\'Plus Jakarta Sans\',sans-serif;">{"Already there! 🎉" if gap==0 else f"₹{gap:,}"}</div><div style="font-size:13px;color:{TEXT2};margin-top:8px;line-height:1.6;">{"You\'ve cracked the top 10% — exceptional!" if gap==0 else "Add 2–3 high-demand skills and apply for senior roles to close this gap in 1–2 years."}</div></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+     pr = min(95, max(25, int(30 + (salary / top5) * 65)))
+     gap = max(0, top10 - salary)
+
+     upskill_msg = "" if pr >= 90 else " Upskill to break into the top 10%!"
+     st.markdown(
+        f'<div class="card" style="text-align:center;margin-bottom:14px;">'
+        f'<div class="card-title">🎯 Your Market Position</div>'
+        f'<div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});'
+        f'-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;'
+        f'font-family:\'Plus Jakarta Sans\',sans-serif;">{pr}th</div>'
+        f'<div style="font-size:13px;color:{TEXT2};margin-top:4px;">percentile in your field</div>'
+        f'<div style="font-size:13px;color:{TEXT2};margin-top:12px;line-height:1.6;">'
+        f'You earn more than <strong style="color:{TEXT1};">{pr}%</strong> of similar professionals.{upskill_msg}'
+        f'</div></div>',
+        unsafe_allow_html=True
+    )
+
+     gap_value = "Already there! 🎉" if gap == 0 else f"₹{gap:,}"
+     gap_msg = "You've cracked the top 10% — exceptional!" if gap == 0 else "Add 2–3 high-demand skills and apply for senior roles to close this gap in 1–2 years."
+     st.markdown(
+        f'<div class="card"><div class="card-title">💰 Gap to Top 10%</div>'
+        f'<div style="font-size:22px;font-weight:800;color:{ACCENT};font-family:\'Plus Jakarta Sans\',sans-serif;">{gap_value}</div>'
+        f'<div style="font-size:13px;color:{TEXT2};margin-top:8px;line-height:1.6;">{gap_msg}</div></div>',
+        unsafe_allow_html=True
+    )
+st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # LEADERBOARD PAGE
