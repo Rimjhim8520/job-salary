@@ -166,8 +166,8 @@ else:
     CARD_BORDER   = "#A5F3FC"
     CARD_BORDER2  = "#CFFAFE"
     TEXT1         = "#000000"
-    TEXT2         = "#0E7490"
-    TEXT3         = "#67E8F9"
+    TEXT2         = "#000000"
+    TEXT3         = "#000000"
     ACCENT        = "#0891B2"
     ACCENT2       = "#0E7490"
     ACCENT3       = "#155E75"
@@ -213,10 +213,6 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* ── Streamlit root containers ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 .stApp>div{{background:transparent!important;}}
-
-/* Text Visibility */
-  p, li, label, div {{color:black!important;font-size: 16px;
-}}
 
 /* Remove ALL default block padding so our custom layout takes over */
 .block-container{{
