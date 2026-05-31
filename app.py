@@ -550,7 +550,7 @@ p,li{{color:{TEXT2}!important;}}
 [data-baseweb="menu"] li,[role="option"]{{background:{OPT_BG}!important;color:{OPT_C}!important;font-size:14px!important;}}
 [data-baseweb="menu"] li:hover,[role="option"]:hover,[role="option"][aria-selected="true"]{{background:{OPT_H}!important;color:{OPT_CH}!important;}}
 div[data-baseweb="select"] * {{
-    color: {:'#64748B' if dm else '#000000'}} !important;
+    color: {{'#64748B' if dm else '#000000'}} !important;
 }}
 
 .stButton>button{{
