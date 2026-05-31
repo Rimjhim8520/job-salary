@@ -537,20 +537,20 @@ p,li{{color:{TEXT2}!important;}}
 
 .stTextInput input,.stNumberInput input{{
   background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;
-  border-radius:11px!important;color:#67E8F9!important;font-size:14px!important;padding:10px 14px!important;
+  border-radius:11px!important;color:#0891B2!important;font-size:14px!important;padding:10px 14px!important;
 }}
 .stTextInput input:focus,.stNumberInput input:focus{{border-color:{ACCENT}!important;box-shadow:0 0 0 3px {ACCENT_SOFT}!important;}}
 .stTextInput label,.stNumberInput label,.stSelectbox label{{color:{TEXT2}!important;font-size:12px!important;font-weight:600!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}}
 .stTextInput textarea{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;color:{TEXT1}!important;font-size:14px!important;}}
-.stSelectbox>div>div{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;color:#67E8F9!important;}}
+.stSelectbox>div>div{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;color:#0891B2!important;}}
 .stSelectbox span {{
-    color:#67E8F9!important;
+    color:#0891B2!important;
 }}
 [data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"]{{background:{OPT_BG}!important;border:1px solid {CARD_BORDER}!important;border-radius:14px!important;box-shadow:0 8px 32px rgba(0,0,0,0.15)!important;}}
 [data-baseweb="menu"] li,[role="option"]{{background:{OPT_BG}!important;color:{OPT_C}!important;font-size:14px!important;}}
 [data-baseweb="menu"] li:hover,[role="option"]:hover,[role="option"][aria-selected="true"]{{background:{OPT_H}!important;color:{OPT_CH}!important;}}
 div[data-baseweb="select"] * {{
-    color:#67E8F9!important;
+    color:#0891B2!important;
 }}
 
 .stButton>button{{
