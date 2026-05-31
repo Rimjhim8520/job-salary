@@ -549,6 +549,9 @@ p,li{{color:{TEXT2}!important;}}
 [data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"]{{background:{OPT_BG}!important;border:1px solid {CARD_BORDER}!important;border-radius:14px!important;box-shadow:0 8px 32px rgba(0,0,0,0.15)!important;}}
 [data-baseweb="menu"] li,[role="option"]{{background:{OPT_BG}!important;color:{OPT_C}!important;font-size:14px!important;}}
 [data-baseweb="menu"] li:hover,[role="option"]:hover,[role="option"][aria-selected="true"]{{background:{OPT_H}!important;color:{OPT_CH}!important;}}
+div[data-baseweb="select"] * {{
+    color: #000000 !important;
+}}
 
 .stButton>button{{
   background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;
