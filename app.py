@@ -215,7 +215,7 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 .stApp>div{{background:transparent!important;}}
 
 /* Text Visibility */
-  p, li, label, div {{color:white!important;font-size: 16px;
+  p, li, label, div {{color:black!important;font-size: 16px;
 }}
 
 /* Remove ALL default block padding so our custom layout takes over */
