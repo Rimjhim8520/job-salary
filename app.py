@@ -165,7 +165,7 @@ else:
     CARD_BG2      = "#F0FDFF"
     CARD_BORDER   = "#A5F3FC"
     CARD_BORDER2  = "#CFFAFE"
-    TEXT1         = "#164E63"
+    TEXT1         = "#000000"
     TEXT2         = "#0E7490"
     TEXT3         = "#67E8F9"
     ACCENT        = "#0891B2"
